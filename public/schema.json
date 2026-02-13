@@ -1,0 +1,22 @@
+{
+  "@context": "https://schema.org",
+  "@type": "NGO",
+  "name": "Integrated Knowledge and Care (IKC) Foundation",
+  "alternateName": "IKC Foundation",
+  "url": "https://ikc.org.in",
+  "logo": "https://ikc.org.in/logo.png",
+  "description": "IKC Foundation empowers lives through knowledge and care. We provide education, healthcare, and community support programs to build a better future for all.",
+  "foundingDate": "2020",
+  "areaServed": "India",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Customer Service",
+    "email": "info@ikc.org.in"
+  },
+  "sameAs": [
+    "https://www.facebook.com/IKCFoundation",
+    "https://twitter.com/IKCFoundation",
+    "https://www.linkedin.com/company/ikc-foundation",
+    "https://www.instagram.com/IKCFoundation"
+  ]
+}

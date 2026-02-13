@@ -32,12 +32,7 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/admin"
-            className="text-xs font-semibold text-gray-600 hover:text-blue-600 transition-colors border border-gray-300 px-3 py-1.5 rounded hover:border-blue-600"
-          >
-            Admin
-          </Link>
+         
         </div>
 
         {/* Mobile Menu Button */}

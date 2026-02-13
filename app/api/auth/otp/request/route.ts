@@ -53,17 +53,15 @@ export async function POST() {
     // Get all admin emails
     const adminEmails = adminEmailsEnv.split(',').map(e => e.trim());
 
-    // Send the SAME OTP to ALL admin emails
-    const emailPromises = adminEmails.map(email => 
-      resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || 'noreply@yourdomain.com',
-        to: email,
-        subject: 'Your Admin Access OTP',
-        html: `<p>Your OTP for admin access is: <strong>${otp}</strong></p><p>This code expires in 5 minutes.</p>`
-      })
-    );
+    // Use Resend batch email sending for better performance
+    const batchEmails = adminEmails.map(email => ({
+      from: process.env.RESEND_FROM_EMAIL || 'noreply@ikc.org.in',
+      to: email,
+      subject: 'Your Admin Access OTP',
+      html: `<p>Your OTP for admin access is: <strong>${otp}</strong></p><p>This code expires in 5 minutes.</p>`
+    }));
 
-    await Promise.all(emailPromises);
+    await resend.batch.send(batchEmails);
 
     return NextResponse.json({ success: true, message: 'OTP sent to all admin emails' });
   } catch (error) {
