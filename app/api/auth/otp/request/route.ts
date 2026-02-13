@@ -56,7 +56,7 @@ export async function POST() {
     // Send the SAME OTP to ALL admin emails
     const emailPromises = adminEmails.map(email => 
       resend.emails.send({
-        from: 'onboarding@resend.dev',
+        from: process.env.RESEND_FROM_EMAIL || 'noreply@yourdomain.com',
         to: email,
         subject: 'Your Admin Access OTP',
         html: `<p>Your OTP for admin access is: <strong>${otp}</strong></p><p>This code expires in 5 minutes.</p>`
