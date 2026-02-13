@@ -74,7 +74,7 @@ export function Footer() {
                 </div>
                 <div>
                   <p className="font-semibold text-slate-200">Address</p>
-                  <p className="text-sm">Generic City, State<br />Country - 000000</p>
+                  <p className="text-sm">NewTown, Kolkata<br />India - 700135</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 group">
@@ -84,7 +84,7 @@ export function Footer() {
                 <div>
                   <p className="font-semibold text-slate-200">Email</p>
                   <a href="mailto:contact@ikctrust.org" className="text-sm hover:text-blue-400 transition-colors">
-                    contact@ikctrust.org
+                   info@ikc.org.in
                   </a>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export function Footer() {
                 <div>
                   <p className="font-semibold text-slate-200">Phone</p>
                   <a href="tel:+1234567890" className="text-sm hover:text-blue-400 transition-colors">
-                    +1 (234) 567-890
+                   +91 82407 57598
                   </a>
                 </div>
               </div>
