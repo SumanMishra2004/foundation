@@ -95,7 +95,7 @@ export default async function TeamPage() {
 
       {/* Team Members */}
       <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
-        <div className="container mx-auto px-4 max-w-7xl ">
+        <div className="container mx-auto px-4  ">
           {teamMembers.length === 0 ? (
             <div className="text-center py-16">
               <Card className="max-w-2xl mx-auto bg-white  border-2 border-blue-100">
@@ -113,11 +113,13 @@ export default async function TeamPage() {
               </Card>
             </div>
           ) : (
+            <div className='flex flex-col items-end gap-4'>
+            <button className='w-auto text-lg text-white bg-blue-500 p-6 rounded-xl md:w-fit'>Add Team Member</button>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
               {teamMembers.map((member) => (
-                <Card key={member.id} className="group shadow-lime-400 duration-500  bg-white border-transparent hover:border-blue-500 hover:shadow-white">
+                <Card key={member.id} className="group shadow-lime-400 duration-500  bg-white border-transparent hover:border-blue-500 hover:shadow-white overflow-hidden">
                   <CardHeader className="pb-4">
-                    <div className="relative mx-auto w-72 h-72 rounded-full border-4 border-white mb-5 bg-gradient-to-br from-gray-400 to-gray-800 shadow-lg overflow-hidden">
+                    <div className="relative mx-auto w-full h-72 rounded-2xl border-4 border-white mb-5 bg-gradient-to-br from-gray-400 to-gray-800 shadow-lg overflow-hidden">
                       <Image
                         src={member.image}
                        fill
@@ -138,6 +140,7 @@ export default async function TeamPage() {
                   </CardContent>
                 </Card>
               ))}
+            </div>
             </div>
           )}
         </div>
