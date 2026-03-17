@@ -11,11 +11,12 @@ export function Navbar() {
     { href: '/', label: 'Home' },
     { href: '/about', label: 'Who We Are' },
     { href: '/programs', label: 'Focus Areas' },
+    {href:'/adVisory-board', label: 'Advisory Board'},
     { href: '/team', label: 'Our Team' },
   ];
 
   return (
-    <nav className="bg-white shadow-md border-b sticky top-0 z-50 backdrop-blur-sm bg-white/95">
+    <nav className="bg-white shadow-md border-b sticky top-0 z-50 backdrop-blur-sm">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="font-bold text-xl flex items-center gap-2 hover:opacity-80 transition-opacity">
           <span className="text-2xl font-black text-blue-600">IKC</span>
@@ -27,11 +28,18 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition-colors"
+              className="text-sm font-semibold text-gray-800 hover:text-blue-600 "
             >
               {link.label}
             </Link>
           ))}
+           <Link
+              href="/admin"
+              onClick={() => setIsOpen(false)}
+              className="text-sm font-semibold text-gray-800 hover:text-blue-600 "
+            >
+              Admin
+            </Link>
          
         </div>
 
