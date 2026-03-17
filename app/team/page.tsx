@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import staticTeamMembers from '@/data/team'; // Import static team data
 
 interface TeamMember {
   id: string;
@@ -22,8 +23,9 @@ async function getTeamMembers(): Promise<TeamMember[]> {
 }
 
 export default async function TeamPage() {
-  const teamMembers = await getTeamMembers();
-    console.log('Fetched team members:', teamMembers); // Debug log
+  const apiTeamMembers = await getTeamMembers();
+  const teamMembers = apiTeamMembers.length > 0 ? apiTeamMembers : staticTeamMembers; // Fallback to static data if API fails
+  console.log('Fetched team members:', teamMembers); // Debug log
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -93,10 +95,10 @@ export default async function TeamPage() {
 
       {/* Team Members */}
       <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
-        <div className="container mx-auto px-4 max-w-7xl">
+        <div className="container mx-auto px-4 max-w-7xl ">
           {teamMembers.length === 0 ? (
             <div className="text-center py-16">
-              <Card className="max-w-2xl mx-auto bg-white shadow-2xl border-2 border-blue-100">
+              <Card className="max-w-2xl mx-auto bg-white  border-2 border-blue-100">
                 <CardContent className="pt-16 pb-16">
                   <div className="mb-6">
                     <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
@@ -113,23 +115,24 @@ export default async function TeamPage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
               {teamMembers.map((member) => (
-                <Card key={member.id} className="group hover:shadow-2xl transition-all duration-500 overflow-hidden bg-white border-2 border-transparent hover:border-blue-500 hover:-translate-y-3">
+                <Card key={member.id} className="group shadow-lime-400 duration-500  bg-white border-transparent hover:border-blue-500 hover:shadow-white">
                   <CardHeader className="pb-4">
-                    <div className="relative w-full h-72 mb-5 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl overflow-hidden shadow-lg">
+                    <div className="relative mx-auto w-72 h-72 rounded-full border-4 border-white mb-5 bg-gradient-to-br from-gray-400 to-gray-800 shadow-lg overflow-hidden">
                       <Image
                         src={member.image}
+                       fill
                         alt={member.name}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                       
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 ">
                       {member.name}
                     </CardTitle>
-                    <p className="text-blue-600 font-bold text-base mt-2">{member.role}</p>
+                    <p className="text-blue-600 font-bold ">{member.role}</p>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-800 text-base leading-relaxed font-normal">
+                    <p className="text-gray-800  font-normal">
                       {member.bio}
                     </p>
                   </CardContent>
