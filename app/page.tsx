@@ -49,25 +49,24 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 text-white py-24 md:py-36 overflow-hidden">
         {/* Animated background pattern */}
-        <div className="absolute inset-0 opacity-10">
+        {/* <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]"></div>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div> */}
         
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto text-center">
+          <div className="max-w-5xl mx-auto text-center ">
             <div className="mb-8 flex justify-center animate-in fade-in slide-in-from-top duration-700">
-              <div className="relative w-28 h-28 md:w-36 md:h-36 bg-white rounded-full p-5 shadow-2xl ring-4 ring-white/20 hover:scale-110 transition-transform duration-300">
+              <div className="relative w-28 h-28 md:w-36 md:h-36 bg-white rounded-full shadow-2xl ring-4 ring-white/20 hover:scale-110 transition-transform duration-300">
                 <Image 
                   src="/logo.png" 
                   alt="IKC Logo" 
                   fill
-                  className="object-contain p-2"
-                  priority
+                  className="p-2"
                 />
               </div>
             </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-white drop-shadow-lg animate-in fade-in slide-in-from-bottom duration-700 delay-100">
+            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight text-white   fade-in slide-in-from-bottom duration-700 delay-100">
               Integrated Knowledge and Care
             </h1>
             <p className="text-2xl md:text-3xl mb-3 text-blue-50 font-semibold animate-in fade-in slide-in-from-bottom duration-700 delay-200">
@@ -96,7 +95,7 @@ export default function Home() {
       <section className="py-20 bg-gradient-to-b from-white to-slate-50">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-            <Card className="border-l-4 border-l-blue-600 shadow-2xl bg-gradient-to-br from-blue-50 to-white hover:shadow-3xl hover:-translate-y-2 transition-all duration-300">
+            <Card className="border-l-4 border-l-blue-600 shadow-2xl bg-gradient-to-br from-blue-50 to-white hover:shadow-3xl hover:translate-y-2 transition-all duration-300">
               <CardHeader className="pb-4">
                 <CardTitle className="text-3xl font-bold text-gray-900 flex items-center gap-3">
                   <div className="p-2 bg-blue-100 rounded-lg">
@@ -112,7 +111,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="border-l-4 border-l-green-600 shadow-2xl bg-gradient-to-br from-green-50 to-white hover:shadow-3xl hover:-translate-y-2 transition-all duration-300">
+            <Card className="border-l-4 border-l-green-600 shadow-2xl bg-gradient-to-br from-green-50 to-white hover:shadow-3xl hover:translate-y-2 transition-all duration-300">
               <CardHeader className="pb-4">
                 <CardTitle className="text-3xl font-bold text-gray-900 flex items-center gap-3">
                   <div className="p-2 bg-green-100 rounded-lg">

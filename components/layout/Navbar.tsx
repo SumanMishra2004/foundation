@@ -11,7 +11,7 @@ export function Navbar() {
     { href: '/', label: 'Home' },
     { href: '/about', label: 'Who We Are' },
     { href: '/programs', label: 'Focus Areas' },
-    {href:'/adVisory-board', label: 'Advisory Board'},
+    {href:'/advisory-board', label: 'Advisory Board'},
     { href: '/team', label: 'Our Team' },
   ];
 

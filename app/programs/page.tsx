@@ -130,7 +130,7 @@ export default function ProgramsPage() {
               <Card key={index} className="group hover:shadow-2xl transition-all duration-500 border-2 border-transparent hover:border-blue-500 bg-white hover:-translate-y-2">
                 <CardHeader>
                   <div className="flex items-start gap-4">
-                    <div className={`w-16 h-16 rounded-xl ${program.color} flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`w-16 h-16 rounded-xl ${program.color} flex items-center justify-center  shadow-lg group-hover:scale-110 duration-300`}>
                       <program.icon className="w-8 h-8 text-white" />
                     </div>
                     <div>
