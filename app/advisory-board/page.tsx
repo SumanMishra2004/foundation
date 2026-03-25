@@ -13,7 +13,7 @@ const page = () => {
     "Priya Singh",
     "Vikram Patel",
   ];
-  const designation = [
+  const designations = [
     "Education Expert",
     "Healthcare Specialist",
     "Social Worker",
@@ -22,7 +22,7 @@ const page = () => {
     "Cultural Advisor",
     "Sports Coach",
   ];
-  const about = [
+  const abouts = [
     "Arav is an education expert with over 20 years of experience in curriculum development and teacher training.",
     "Pinky is a healthcare specialist focused on improving access to medical services in rural areas.",
     "Rohit is a social worker dedicated to empowering marginalized communities through grassroots initiatives.",
@@ -31,8 +31,23 @@ const page = () => {
     "Priya is a cultural advisor passionate about preserving and promoting traditional arts and culture.",
     "Vikram is a sports coach who has trained athletes to compete at national and international levels.",
   ];
-const[refinesdName, setRefinedName] = React.useState("");
 
+  const AdvisoryData = Array.from({ length: 50 }, (_, index) => {
+    const name = names[index % names.length];
+    const designation = designations[index % designations.length];
+    const about = abouts[index % abouts.length];
+    const email = `${name.split(" ")[0].toLowerCase()}.${name.split(" ")[1].toLowerCase()}@gmail.com`;
+    const image = `https://i.pravatar.cc/150?img=${index + 1}`;
+    return {
+      index: index + 1,
+      name,
+      designation,
+      about,
+      email,
+      image,
+    };
+  });
+  console.log("Advisory Board Data:", AdvisoryData); // Debug log to verify data structure
   return (
     <div>
       <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 text-white py-20 md:py-28 relative overflow-hidden">
@@ -48,41 +63,45 @@ const[refinesdName, setRefinedName] = React.useState("");
         </div>
       </div>
       <div className="py-16">
-        <div className="px-5 md:px-5 lg:px-3 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {Array.from({ length: 50 }, (_, i) => {
+        <div className="px-5 md:px-5 lg:px-3 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {AdvisoryData.map((member) => {
             return (
-              <Card key={i} className="mb-4 max-w-lg">
-                <CardHeader>
-                  <div className="flex items-center gap-4 h-20">
+              <Card key={member.index} className=" max-w-lg border-0 shadow-2xl">
+                <CardHeader className="p-4">
+                  <div className="flex gap-4 h-20 ">
                     <section className="w-20 border border-2 border-green-500 rounded-full overflow-hidden ">
                       <Image
-                        src={`https://i.pravatar.cc/150?img=${i + 1}`}
-                        alt={names[Math.floor(Math.random() / 10)]}
+                        src={member.image}
+                        alt={member.name}
                         width={100}
                         height={100}
                         className="rounded-full border border-2 border-blue-200"
                       />
                     </section>
                     <section>
-                      <h3 className="text-xl font-bold text-gray-900">
-                        {names[Math.floor(Math.random() * names.length)]}
+                      <h3 className="text-xl lg:text-lg font-bold text-gray-900">
+                        {member.name}
                       </h3>
-                      <p className="text-blue-600 font-bold">
-                        {
-                          designation[
-                            Math.floor(Math.random() * designation.length)
-                          ]
-                        }
+                      <p className="text-[16px] text-blue-600 font-bold">
+                        {member.designation}
                       </p>
                     </section>
-
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    {
-                      about[Math.floor(Math.random()* about.length)]
-                    }
+                <CardContent className="flex flex-col gap-2 p-4">
+                  <p className="text-gray-700 text-lg md:text-sm md:h-25">
+                    {member.about}
+                  </p>
+                  <p className="text-lg md:text-sm">
+                    <a
+                      href={`mailto:${member.email}`}
+                      className=" group relative text-blue-500 hover:underline font-bold"
+                    >
+                      <div className="hidden group-hover:block absolute translate-y-[-15%] left-18 md:left-16 border border-1 w-fit p-2 rounded-full bg-amber-50">
+                        {member.email}
+                      </div>
+                      Contact
+                    </a>
                   </p>
                 </CardContent>
               </Card>
