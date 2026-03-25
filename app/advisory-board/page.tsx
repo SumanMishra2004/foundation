@@ -49,7 +49,7 @@ const[refinesdName, setRefinedName] = React.useState("");
       </div>
       <div className="py-16">
         <div className="px-5 md:px-5 lg:px-3 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {Array.from({ length: 50 }, (_, i) => {
+          {/* {Array.from({ length: 50 }, (_, i) => {
             return (
               <Card key={i} className="mb-4 max-w-lg">
                 <CardHeader>
@@ -87,7 +87,7 @@ const[refinesdName, setRefinedName] = React.useState("");
                 </CardContent>
               </Card>
             );
-          })}
+          })} */}
         </div>
       </div>
     </div>
