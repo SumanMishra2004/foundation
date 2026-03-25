@@ -33,13 +33,13 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-           <Link
+           {/* <Link
               href="/admin"
               onClick={() => setIsOpen(false)}
               className="text-sm font-semibold text-gray-800 hover:text-blue-600 "
             >
               Admin
-            </Link>
+            </Link> */}
          
         </div>
 
