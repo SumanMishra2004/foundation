@@ -67,15 +67,16 @@ const page = () => {
           {AdvisoryData.map((member) => {
             return (
               <Card key={member.index} className=" max-w-lg border-0 shadow-2xl">
-                <CardHeader className="p-4">
-                  <div className="flex gap-4 h-20 ">
-                    <section className="w-20 border border-2 border-green-500 rounded-full overflow-hidden ">
+                <CardHeader className="px-4 py-2">
+                  <div className=" items-center flex gap-4 sm:items-center lg:h-14 md:items-start">
+                    <section className="flex-shrink-0 w-[100px] h-[100px] lg:w-16 lg:h-16 border-2 border-green-500 rounded-full overflow-hidden ">
                       <Image
                         src={member.image}
                         alt={member.name}
                         width={100}
                         height={100}
-                        className="rounded-full border border-2 border-blue-200"
+                        
+                        className="rounded-full border-2 border-blue-200 object-cover"
                       />
                     </section>
                     <section>
