@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import TrusteePartner from "@/components/layout/TrusteePartner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -81,7 +82,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
+      {/* <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
@@ -107,13 +108,14 @@ export default function RootLayout({
             })
           }}
         />
-      </head>
+      </head> */}
       <body className={inter.className}>
         <div className="flex flex-col min-h-screen bg-slate-50">
           <Navbar />
           <main className="flex-1">
             {children}
           </main>
+          <TrusteePartner/>
           <Footer />
         </div>
       </body>
