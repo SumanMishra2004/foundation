@@ -96,7 +96,7 @@ export default async function TeamPage() {
       {/* Team Members */}
       <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
         <div className="container mx-auto px-4  ">
-          {teamMembers.length !=0 ? (
+          {teamMembers.length ==0 ? (
             <div className="text-center py-16">
               <Card className="max-w-2xl mx-auto bg-white  border-2 border-blue-100">
                 <CardContent className="pt-16 pb-16">
