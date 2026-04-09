@@ -1,24 +1,28 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-
+import Link from "next/link";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+//import "../../app/globals.css";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'Who We Are' },
-    { href: '/programs', label: 'Focus Areas' },
-    {href:'/advisory-board', label: 'Advisory Board'},
-    { href: '/team', label: 'Our Team' },
+    { href: "/", label: "Home" },
+    { href: "/currentNotice", label: "Current Notice" },
+    { href: "/about", label: "Who We Are" },
+    { href: "/programs", label: "Focus Areas" },
+    { href: "/advisory-board", label: "Advisory Board" },
+    { href: "/team", label: "Our Team" },
   ];
 
   return (
     <nav className="bg-white shadow-md border-b sticky top-0 z-50 backdrop-blur-sm">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <Link
+          href="/"
+          className="font-bold text-xl flex items-center gap-2 hover:opacity-80 transition-opacity"
+        >
           <span className="text-2xl font-black text-blue-600">IKC</span>
         </Link>
 
@@ -28,19 +32,14 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-semibold text-gray-800 hover:text-blue-600 "
-            >
+              className={`text-sm font-semibold text-gray-800 transition-all inline-block
+                ${link.label === "Current Notice"
+                  ? " glitter-btn px-3 py-3 rounded-full bg-gradient-to-tl from-blue-800 via-purple-700 to-pink-600 animate-glow hover:text-white "
+                  :"hover:text-blue-600"}`}>
               {link.label}
             </Link>
           ))}
-           {/* <Link
-              href="/admin"
-              onClick={() => setIsOpen(false)}
-              className="text-sm font-semibold text-gray-800 hover:text-blue-600 "
-            >
-              Admin
-            </Link> */}
-         
+       
         </div>
 
         {/* Mobile Menu Button */}

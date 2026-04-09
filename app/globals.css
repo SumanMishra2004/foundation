@@ -42,3 +42,35 @@ body {
     transform: translateX(0%);
   }
 }
+
+@layer utilities {
+  .glitter-btn {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glitter-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left:0;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(
+      150deg,
+      transparent,
+      rgba(255, 255, 255, 0.8),
+      transparent
+    );
+    animation: glitter-sweep 2s linear infinite;
+  }
+
+  @keyframes glitter-sweep {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 150%;
+    }
+  }
+}
