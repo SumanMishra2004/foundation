@@ -50,13 +50,13 @@ const page = () => {
   console.log("Advisory Board Data:", AdvisoryData); // Debug log to verify data structure
   return (
     <div>
-      <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 text-white py-20 md:py-28 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 text-white py-20 md:py-28  overflow-hidden">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-7 text-white">
             Advisory Board
           </h1>
           <div className="w-36 h-1 bg-white/50 mx-auto mb-7"></div>
-          <p className="sm:px-5 text-xl md:text-2xl text-blue-50 font-medium ">
+          <p className="px-5 md:px-0 text-xl md:text-2xl text-blue-50 font-medium ">
             It acts as a trusted, neutral third party for leaders to test ideas
             before implementation.
           </p>
