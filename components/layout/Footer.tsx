@@ -89,7 +89,7 @@ export function Footer() {
                 </div>
               </div>
               <div className="flex items-start gap-3 group">
-                <div className="p-2 bg-slate-800 rounded-lg mt-0.5 group-hover:bg-blue-600 transition-colors">
+                {/* <div className="p-2 bg-slate-800 rounded-lg mt-0.5 group-hover:bg-blue-600 transition-colors">
                   <Phone className="w-5 h-5 text-blue-400 group-hover:text-white" />
                 </div>
                 <div>
@@ -97,7 +97,7 @@ export function Footer() {
                   <a href="tel:+1234567890" className="text-sm hover:text-blue-400 transition-colors">
                    +91 82407 57598
                   </a>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
