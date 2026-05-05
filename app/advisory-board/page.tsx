@@ -12,10 +12,7 @@ const page = () => {
             Advisory Board
           </h1>
           <div className="w-36 h-1 bg-white/50 mx-auto mb-7"></div>
-          <p className="px-5 md:px-0 text-xl md:text-2xl text-blue-50 font-medium ">
-            It acts as a trusted, neutral third party for leaders to test ideas
-            before implementation.
-          </p>
+        
         </div>
       </div>
       <div className="py-16">
