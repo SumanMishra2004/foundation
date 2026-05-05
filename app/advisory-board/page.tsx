@@ -4,8 +4,6 @@ import Image from "next/image";
 import {AdvisoryData} from "../../data/advisory-Board/advisory";
 const page = () => {
 
- 
-  console.log("Advisory Board Data:", AdvisoryData); // Debug log to verify data structure
   return (
     <div>
       <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 text-white py-20 md:py-28  overflow-hidden">
