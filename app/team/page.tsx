@@ -30,10 +30,7 @@ export default async function TeamPage() {
     <div className="w-full">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 text-white py-20 md:py-28 relative overflow-hidden">
-        {/* <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.1),transparent_50%)]"></div>
-        </div> */}
-        {/* <div className="container mx-auto px-4 relative z-10"> */}
+      
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-6xl font-extrabold mb-7 text-white drop-shadow-lg">Our Team</h1>
             <div className="w-24 h-1 bg-white/50 mx-auto mb-7 rounded-full"></div>
@@ -96,7 +93,7 @@ export default async function TeamPage() {
       {/* Team Members */}
       <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
         <div className="container mx-auto px-4  ">
-          {teamMembers.length !=0 ? (
+          {teamMembers.length !==0 ? (
             <div className="text-center py-16">
               <Card className="max-w-2xl mx-auto bg-white  border-2 border-blue-100">
                 <CardContent className="pt-16 pb-16">

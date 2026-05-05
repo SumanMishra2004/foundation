@@ -1,93 +1,59 @@
 "use client";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
-import React from "react";
-
+import {AdvisoryData} from "../../data/advisory-Board/advisory";
 const page = () => {
-  const names = [
-    "Arav Meheta",
-    "Pinky Sharma",
-    "Rohit Basu",
-    "Anjali Verma",
-    "Suresh Kumar",
-    "Priya Singh",
-    "Vikram Patel",
-  ];
-  const designation = [
-    "Education Expert",
-    "Healthcare Specialist",
-    "Social Worker",
-    "Community Organizer",
-    "Youth Mentor",
-    "Cultural Advisor",
-    "Sports Coach",
-  ];
-  const about = [
-    "Arav is an education expert with over 20 years of experience in curriculum development and teacher training.",
-    "Pinky is a healthcare specialist focused on improving access to medical services in rural areas.",
-    "Rohit is a social worker dedicated to empowering marginalized communities through grassroots initiatives.",
-    "Anjali is a community organizer who has successfully mobilized resources for various social causes.",
-    "Suresh is a youth mentor who has guided countless young individuals towards successful careers.",
-    "Priya is a cultural advisor passionate about preserving and promoting traditional arts and culture.",
-    "Vikram is a sports coach who has trained athletes to compete at national and international levels.",
-  ];
-const[refinesdName, setRefinedName] = React.useState("");
 
   return (
     <div>
-      <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 text-white py-20 md:py-28 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 text-white py-20 md:py-28  overflow-hidden">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-7 text-white">
             Advisory Board
           </h1>
           <div className="w-36 h-1 bg-white/50 mx-auto mb-7"></div>
-          <p className="sm:px-5 text-xl md:text-2xl text-blue-50 font-medium ">
+          <p className="px-5 md:px-0 text-xl md:text-2xl text-blue-50 font-medium ">
             It acts as a trusted, neutral third party for leaders to test ideas
             before implementation.
           </p>
         </div>
       </div>
       <div className="py-16">
-        <div className="px-5 md:px-5 lg:px-3 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {/* {Array.from({ length: 50 }, (_, i) => {
+        <div className="px-5 md:px-5 lg:px-3 max-w-8xl mx-auto grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-6 ">
+          {AdvisoryData.map((member) => {
             return (
-              <Card key={i} className="mb-4 max-w-lg">
-                <CardHeader>
-                  <div className="flex items-center gap-4 h-20">
-                    <section className="w-20 border border-2 border-green-500 rounded-full overflow-hidden ">
+              <Card
+                key={member.id}
+                className=" border-0 shadow-2xl h-full p-5"
+              >
+                <CardHeader className="">
+                  <div className=" items-center flex gap-4  lg:h-14">
+                    <section className="flex-shrink-0 w-[100px] h-[100px] lg:w-16 lg:h-16 border-2 border-green-500 rounded-full overflow-hidden ">
                       <Image
-                        src={`https://i.pravatar.cc/150?img=${i + 1}`}
-                        alt={names[Math.floor(Math.random() / 10)]}
+                        src={member.image}
+                        alt={member.name}
                         width={100}
                         height={100}
-                        className="rounded-full border border-2 border-blue-200"
+                        className="rounded-full border-2 border-blue-200 object-cover"
                       />
                     </section>
                     <section>
-                      <h3 className="text-xl font-bold text-gray-900">
-                        {names[Math.floor(Math.random() * names.length)]}
+                      <h3 className="text-xl lg:text-lg font-bold text-gray-900">
+                        {member.name}
                       </h3>
-                      <p className="text-blue-600 font-bold">
-                        {
-                          designation[
-                            Math.floor(Math.random() * designation.length)
-                          ]
-                        }
-                      </p>
+                   
                     </section>
-
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    {
-                      about[Math.floor(Math.random()* about.length)]
-                    }
+                <CardContent className="flex flex-col ">
+                  <p className="text-gray-700 text-lg md:text-sm overflow-hidden text-justify">
+                    {member.bio}
                   </p>
+                
                 </CardContent>
               </Card>
             );
-          })} */}
+          })}
         </div>
       </div>
     </div>
