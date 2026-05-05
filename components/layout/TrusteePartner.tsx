@@ -5,7 +5,7 @@ const TrusteePartner = () => {
   return (
     <div className="container max-w-7xl mx-auto bg-gray-200">
       <div className="overflow-hidden px-5 group">
-      <div className="flex gap-5 py-5  animate-scroll group-hover:[animation-play-state:paused]">
+      <div className="flex gap-5 py-5 animate-scroll group-hover:[animation-play-state:paused]">
         {[...Array.from({ length: 15})].map((_, index) => {
           return (
             <div key={index} className=" rounded-full ">
