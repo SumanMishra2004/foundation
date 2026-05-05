@@ -26,9 +26,9 @@ const page = () => {
             return (
               <Card
                 key={member.id}
-                className=" border-0 shadow-2xl h-full"
+                className=" border-0 shadow-2xl h-full p-5"
               >
-                <CardHeader className="px-4 py-2">
+                <CardHeader className="">
                   <div className=" items-center flex gap-4  lg:h-14">
                     <section className="flex-shrink-0 w-[100px] h-[100px] lg:w-16 lg:h-16 border-2 border-green-500 rounded-full overflow-hidden ">
                       <Image
@@ -47,8 +47,8 @@ const page = () => {
                     </section>
                   </div>
                 </CardHeader>
-                <CardContent className="flex flex-col gap-2 p-4">
-                  <p className="text-gray-700 text-lg md:text-sm overflow-hidden">
+                <CardContent className="flex flex-col ">
+                  <p className="text-gray-700 text-lg md:text-sm overflow-hidden text-justify">
                     {member.bio}
                   </p>
                 
