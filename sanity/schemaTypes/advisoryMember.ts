@@ -18,6 +18,29 @@ export const advisoryMember = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'designation',
+      title: 'Designation',
+      type: 'string',
+      description: 'Optional title shown on the advisory board page.',
+    }),
+    defineField({
+      name: 'organization',
+      title: 'Organization / Institution',
+      type: 'string',
+      description: 'Optional institution, university, or company name.',
+    }),
+    defineField({
+      name: 'expertise',
+      title: 'Area of Expertise',
+      type: 'string',
+      description: 'Short phrase describing the advisor’s specialization.',
+    }),
+    defineField({
+      name: 'linkedinUrl',
+      title: 'LinkedIn URL',
+      type: 'url',
+    }),
+    defineField({
       name: 'image',
       title: 'Profile Photo',
       type: 'image',

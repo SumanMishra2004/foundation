@@ -18,6 +18,34 @@ export const teamMember = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'designation',
+      title: 'Designation',
+      type: 'string',
+      description: 'Optional title shown on the team page, such as Director or Coordinator.',
+    }),
+    defineField({
+      name: 'organization',
+      title: 'Organization / Department',
+      type: 'string',
+      description: 'Optional organization, program, or department name.',
+    }),
+    defineField({
+      name: 'expertise',
+      title: 'Key Expertise',
+      type: 'string',
+      description: 'Short phrase describing the member’s primary expertise.',
+    }),
+    defineField({
+      name: 'email',
+      title: 'Email Address',
+      type: 'string',
+    }),
+    defineField({
+      name: 'linkedinUrl',
+      title: 'LinkedIn URL',
+      type: 'url',
+    }),
+    defineField({
       name: 'bio',
       title: 'Biography',
       type: 'text',

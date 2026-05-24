@@ -86,9 +86,9 @@ export default async function AboutPage() {
           <div className="absolute inset-0 bg-linear-to-b from-slate-950/90 via-slate-900/80 to-slate-950/95 z-10" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 w-full relative z-20 text-center py-24 sm:py-32">
+        <div className="w-full px-5 sm:px-8 relative z-20 text-center py-24 sm:py-32">
           <FadeIn direction="down" delay={0.1}>
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-300 border border-teal-500/30 backdrop-blur-md mb-6 font-display">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-100 border border-teal-500/30 backdrop-blur-md mb-6 font-display">
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
               {settings?.aboutHeroEyebrow || "About IKC Trust"}
             </span>
@@ -101,7 +101,7 @@ export default async function AboutPage() {
           </FadeIn>
 
           <FadeIn direction="up" delay={0.3}>
-            <p className="text-xs sm:text-sm text-slate-300 font-sans-modern leading-relaxed max-w-2xl mx-auto">
+            <p className="text-xs sm:text-sm text-slate-100/85 font-sans-modern leading-relaxed max-w-2xl mx-auto">
               {content.heroSubtitle}
             </p>
           </FadeIn>
@@ -110,7 +110,7 @@ export default async function AboutPage() {
 
       {/* ================= STORY SECTION ================= */}
       <section className="py-20 lg:py-24 bg-[#FAF7E6]">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="w-full px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             {/* Story text */}
             <div className="lg:col-span-7 flex flex-col items-start text-left">
@@ -159,7 +159,7 @@ export default async function AboutPage() {
 
       {/* ================= VISION & MISSION CARDS ================= */}
       <section className="py-20 lg:py-24 bg-white border-y border-slate-200">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="w-full px-5 sm:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Vision Card */}
             <FadeIn direction="right" className="bg-[#FAF7E6]/50 border border-slate-200 rounded-2xl p-8 flex gap-6 items-start shadow-sm">
@@ -196,7 +196,7 @@ export default async function AboutPage() {
 
       {/* ================= MILESTONE TIMELINE ================= */}
       <section className="py-20 lg:py-24 bg-[#FAF7E6]">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="w-full px-5 sm:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <FadeIn direction="down">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-800 border border-teal-100 mb-6 font-display">
@@ -211,7 +211,7 @@ export default async function AboutPage() {
             </FadeIn>
           </div>
 
-          <div className="relative max-w-3xl mx-auto">
+          <div className="relative w-full mx-auto">
             {/* Center line (only for sm+ screens) */}
             <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-[1.5px] bg-slate-200 -translate-x-1/2" />
 
@@ -257,7 +257,7 @@ export default async function AboutPage() {
 
       {/* ================= CORE VALUES SECTION ================= */}
       <section className="py-20 lg:py-24 bg-white border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="w-full px-5 sm:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <FadeIn direction="down">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-850 mb-6 font-display">
@@ -300,7 +300,7 @@ export default async function AboutPage() {
       <section className="py-20 lg:py-24 bg-slate-900 text-white relative">
         <div className="absolute inset-0 z-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-size-[32px_32px] opacity-[0.03] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
+        <div className="w-full px-5 sm:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <FadeIn direction="down">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-slate-800 text-teal-400 border border-slate-700 mb-6 font-display">

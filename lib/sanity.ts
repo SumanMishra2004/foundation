@@ -22,6 +22,11 @@ export async function fetchTeamMembers() {
     _id,
     name,
     role,
+    designation,
+    organization,
+    expertise,
+    email,
+    linkedinUrl,
     bio,
     image,
     order
@@ -40,6 +45,10 @@ export async function fetchAdvisoryBoard() {
   const query = `*[_type == "advisoryMember"] | order(order asc) {
     _id,
     name,
+    designation,
+    organization,
+    expertise,
+    linkedinUrl,
     bio,
     image,
     order
