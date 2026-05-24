@@ -1,6 +1,8 @@
+'use client';
+
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import staticTeamMembers from '@/data/team'; // Import static team data
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import staticTeamMembers from '@/data/team';
 
 interface TeamMember {
   id: string;
@@ -10,135 +12,77 @@ interface TeamMember {
   image: string;
 }
 
-async function getTeamMembers(): Promise<TeamMember[]> {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/team`, {
-      cache: 'no-store'
-    });
-    if (!res.ok) return [];
-    return res.json();
-  } catch (error) {
-    return [];
-  }
-}
+export default function TeamPage() {
+  const teamMembers: TeamMember[] = staticTeamMembers;
 
-export default async function TeamPage() {
-  const apiTeamMembers = await getTeamMembers();
-  const teamMembers = apiTeamMembers.length > 0 ? apiTeamMembers : staticTeamMembers; // Fallback to static data if API fails
-  console.log('Fetched team members:', teamMembers); // Debug log
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 via-indigo-700 to-purple-800 text-white py-20 md:py-28 relative overflow-hidden">
-      
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-extrabold mb-7 text-white drop-shadow-lg">Our Team</h1>
-            <div className="w-24 h-1 bg-white/50 mx-auto mb-7 rounded-full"></div>
-            <p className="text-xl md:text-2xl text-blue-50 leading-relaxed font-medium">
-              Meet the dedicated individuals driving positive change in communities
+      <section className="relative min-h-[500px] flex items-center justify-center overflow-hidden py-20">
+        {/* Animated background */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-purple-400/30 rounded-full mix-blend-multiply filter blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-pink-400/30 rounded-full mix-blend-multiply filter blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center animate-fade-in-down">
+            <h1 className="text-5xl md:text-7xl font-black mb-6 text-slate-900">
+              Meet Our <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Team</span>
+            </h1>
+            <div className="w-24 h-1.5 bg-gradient-to-r from-purple-600 to-pink-600 mx-auto mb-8 rounded-full"></div>
+            <p className="text-xl md:text-2xl text-slate-700 leading-relaxed font-medium">
+              Dedicated individuals driving positive change in communities
             </p>
-          </div>
-        {/* </div> */}
-      </section>
-
-      {/* Introduction Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-5">
-              Leadership & Dedication
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto mb-6 rounded-full"></div>
-            <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto font-medium">
-              Our team consists of passionate individuals committed to creating meaningful social impact. 
-              With diverse backgrounds in education, healthcare, social work, and community development, 
-              we work together to empower communities and drive positive change.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 mt-12">
-            <div className="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <span className="text-3xl">🎯</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Mission-Driven</h3>
-              <p className="text-gray-700 text-sm leading-relaxed">
-                Every team member is deeply committed to our mission of inclusive development and social welfare.
-              </p>
-            </div>
-
-            <div className="text-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <span className="text-3xl">🤝</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Collaborative</h3>
-              <p className="text-gray-700 text-sm leading-relaxed">
-                We believe in the power of teamwork and partnerships to achieve greater social impact.
-              </p>
-            </div>
-
-            <div className="text-center p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border-2 border-purple-200 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-700 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <span className="text-3xl">💡</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Innovative</h3>
-              <p className="text-gray-700 text-sm leading-relaxed">
-                We continuously seek creative solutions to address complex social challenges effectively.
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Team Members */}
-      <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
-        <div className="container mx-auto px-4  ">
-          {teamMembers.length !==0 ? (
-            <div className="text-center py-16">
-              <Card className="max-w-2xl mx-auto bg-white  border-2 border-blue-100">
-                <CardContent className="pt-16 pb-16">
-                  <div className="mb-6">
-                    <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-                      <span className="text-5xl">👥</span>
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-extrabold text-gray-900 mb-3">Team Information Coming Soon</h3>
-                  <p className="text-gray-700 text-lg font-medium leading-relaxed">
-                    Our team information will be available soon. Please check back later.
-                  </p>
+      {/* Team Grid */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {teamMembers.map((member, index) => (
+              <div
+                key={member.id}
+                className="card-modern group hover-lift overflow-hidden animate-fade-in-up"
+                style={{ animationDelay: `${0.05 * (index + 1)}s` }}
+              >
+                {/* Image Container */}
+                <div className="relative h-64 overflow-hidden bg-gradient-to-br from-purple-200 to-pink-200">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+
+                {/* Content */}
+                <CardHeader className="pb-3">
+                  <h3 className="text-2xl font-bold text-slate-900 group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 group-hover:bg-clip-text group-hover:text-transparent transition-all">
+                    {member.name}
+                  </h3>
+                  <p className="text-sm font-semibold text-purple-600 mt-2">{member.role}</p>
+                </CardHeader>
+
+                <CardContent>
+                  <p className="text-slate-600 text-sm leading-relaxed line-clamp-3">{member.bio}</p>
                 </CardContent>
-              </Card>
-            </div>
-          ) : (
-            <div className='flex flex-col items-end gap-4'>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {teamMembers.map((member) => (
-                <Card key={member.id} className="group shadow-lime-400 duration-500  bg-white border-transparent hover:border-blue-500 hover:shadow-white overflow-hidden">
-                  <CardHeader className="pb-4">
-                    <div className="relative mx-auto w-full h-72 rounded-2xl border-4 border-white mb-5 bg-gradient-to-br from-gray-400 to-gray-800 shadow-lg overflow-hidden">
-                      <Image
-                        src={member.image}
-                       fill
-                        alt={member.name}
-                       
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                    <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 ">
-                      {member.name}
-                    </CardTitle>
-                    <p className="text-blue-600 font-bold ">{member.role}</p>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-800  font-normal">
-                      {member.bio}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-black mb-6 text-white">Join Our Mission</h2>
+          <p className="text-lg text-slate-200 max-w-2xl mx-auto font-medium leading-relaxed">
+            We're always looking for passionate individuals who want to make a difference. If you share our vision, we'd love to hear from you.
+          </p>
         </div>
       </section>
     </div>

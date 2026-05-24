@@ -4,7 +4,6 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -82,40 +81,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#2563eb" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "NGO",
-              "name": "Integrated Knowledge and Care (IKC) Foundation",
-              "alternateName": "IKC Foundation",
-              "url": "https://ikc.org.in",
-              "logo": "https://ikc.org.in/logo.png",
-              "description": "IKC Foundation empowers lives through knowledge and care. We provide education, healthcare, and community support programs to build a better future for all.",
-              "foundingDate": "2020",
-              "areaServed": "India",
-              "contactPoint": {
-                "@type": "ContactPoint",
-                "contactType": "Customer Service",
-                "email": "info@ikc.org.in"
-              }
-            })
-          }}
-        />
-      </head> */}
       <body className={inter.className}>
-        <div className="flex flex-col min-h-screen bg-slate-50">
+        <div className="flex flex-col min-h-screen bg-gradient-to-b from-slate-50 to-white">
           <Navbar />
           <main className="flex-1">
             {children}
           </main>
-      
           <Footer />
         </div>
       </body>
