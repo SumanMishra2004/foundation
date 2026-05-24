@@ -1,94 +1,78 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Montserrat, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { fetchSiteSettings } from "@/lib/sanity";
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
 
-export const metadata: Metadata = {
-  title: {
-    default: "Integrated Knowledge and Care (IKC) | Empowering Lives",
-    template: "%s | IKC Foundation"
-  },
-  description: "IKC Foundation empowers lives through knowledge and care. We provide education, healthcare, and community support programs to build a better future for all.",
-  keywords: [
-    "IKC Foundation",
-    "Integrated Knowledge and Care",
-    "non-profit organization",
-    "community development",
-    "education programs",
-    "healthcare services",
-    "social welfare",
-    "empowerment programs",
-    "charity organization",
-    "community support",
-    "knowledge sharing",
-    "care services"
-  ],
-  authors: [{ name: "IKC Foundation" }],
-  creator: "IKC Foundation",
-  publisher: "IKC Foundation",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: '/',
-    title: 'Integrated Knowledge and Care (IKC) | Empowering Lives',
-    description: 'IKC Foundation empowers lives through knowledge and care. We provide education, healthcare, and community support programs to build a better future for all.',
-    siteName: 'IKC Foundation',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'IKC Foundation - Empowering Lives through Knowledge & Care',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Integrated Knowledge and Care (IKC) | Empowering Lives',
-    description: 'IKC Foundation empowers lives through knowledge and care. We provide education, healthcare, and community support programs.',
-    images: ['/og-image.jpg'],
-    creator: '@IKCFoundation',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await fetchSiteSettings();
+  const title = settings?.metaTitle || "IKC Foundation — Empowering Through Knowledge & Care";
+  const description =
+    settings?.metaDescription ||
+    "IKC Foundation empowers lives through integrated knowledge and care — education, healthcare, and community welfare programs across India.";
+
+  return {
+    title: {
+      default: title,
+      template: `%s | ${settings?.siteName || "IKC Foundation"}`,
     },
-  },
-};
+    description,
+    keywords: [
+      settings?.siteName || "IKC Foundation",
+      "Integrated Knowledge and Care",
+      "NGO India",
+      "education",
+      "healthcare",
+      "community welfare",
+    ],
+    authors: [{ name: settings?.siteName || "IKC Foundation" }],
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+    ),
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      url: "/",
+      title,
+      description,
+      siteName: settings?.siteName || "IKC Foundation",
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await fetchSiteSettings();
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <div className="flex flex-col min-h-screen bg-gradient-to-b from-slate-50 to-white">
-          <Navbar />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </div>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${montserrat.variable} ${dmSans.variable}`}
+    >
+      <body className="font-sans antialiased bg-[#FAF7E6] text-[#0f172a]">
+        <Navbar settings={settings} />
+        <main>{children}</main>
+        <Footer settings={settings} />
       </body>
     </html>
   );

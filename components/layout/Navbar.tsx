@@ -1,73 +1,215 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, X, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Menu, X, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { urlFor } from "@/lib/image";
 
-export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/programs", label: "Programs" },
+  { href: "/advisory-board", label: "Advisory Board" },
+  { href: "/team", label: "Team" },
+  { href: "/contact", label: "Contact" },
+];
 
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/programs", label: "Programs" },
-    { href: "/advisory-board", label: "Advisory Board" },
-    { href: "/team", label: "Team" },
-  ];
+type NavbarSettings = {
+  siteName?: string;
+  tagline?: string;
+  logo?: any;
+  navLinks?: Array<{ href: string; label: string }>;
+};
+
+export function Navbar({ settings }: { settings?: NavbarSettings }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const links = settings?.navLinks?.length ? settings.navLinks : navLinks;
+  const siteName = settings?.siteName || "IKC Foundation";
+  const tagline = settings?.tagline || "Knowledge & Care";
+  const logoUrl = settings?.logo ? urlFor(settings.logo).width(96).height(96).url() : "/logo.png";
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-700/50 shadow-lg">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link
-          href="/"
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-300 group"
-        >
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white font-bold text-lg group-hover:shadow-lg group-hover:scale-110 transition-all duration-300">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <span className="text-xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">IKC</span>
-        </Link>
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 w-full transition-all duration-300 ${
+          scrolled
+            ? "bg-[#FAF7E6]/95 backdrop-blur-md shadow-sm border-b border-slate-200"
+            : "bg-[#FAF7E6]/80 backdrop-blur-sm border-b border-slate-200/30"
+        }`}
+      >
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8 h-16">
+          {/* Brand Identity */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative h-8 w-8 overflow-hidden rounded-full border border-teal-600/20 bg-white shadow-sm p-0.5 shrink-0">
+              <Image
+                src={logoUrl}
+                alt={siteName}
+                fill
+                className="object-contain"
+                unoptimized
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xs md:text-sm font-extrabold font-display tracking-tight text-slate-900 group-hover:text-teal-700 transition-colors leading-none uppercase">
+                {siteName}
+              </span>
+              <span className="text-[7px] tracking-widest uppercase font-bold text-teal-650 mt-1">
+                {tagline}
+              </span>
+            </div>
+          </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex gap-1 items-center">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/30 rounded-lg transition-all duration-300"
+          {/* Desktop Navigation Links */}
+          <div className="hidden lg:flex items-center gap-8">
+            {links.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative text-[10px] font-extrabold uppercase tracking-widest transition-colors py-1 ${
+                    active ? "text-teal-750" : "text-slate-600 hover:text-teal-700"
+                  }`}
+                >
+                  {link.label}
+                  {active && (
+                    <motion.div
+                      layoutId="activeDot"
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-teal-655"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Desktop CTA */}
+          <Link
+            href="/contact"
+            className="hidden lg:inline-flex items-center gap-1.5 px-4 py-2 text-[10px] font-extrabold uppercase tracking-widest rounded bg-teal-600 text-white hover:bg-teal-700 shadow-sm transition-colors duration-200 font-display"
+          >
+            Volunteer <ArrowRight className="w-3 h-3" />
+          </Link>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="lg:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100/50 transition-colors"
+            aria-label="Open menu"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </nav>
+      </header>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm lg:hidden"
+              onClick={() => setMobileOpen(false)}
+            />
+
+            {/* Side Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 220 }}
+              className="fixed top-0 right-0 bottom-0 z-50 w-[80%] max-w-xs bg-white shadow-2xl lg:hidden flex flex-col border-l border-slate-100"
             >
-              {link.label}
-            </Link>
-          ))}
-        </div>
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 h-16 border-b border-slate-100">
+                <Link
+                  href="/"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5"
+                >
+                  <div className="relative h-7 w-7 rounded-full overflow-hidden border border-teal-100 bg-white">
+                    <Image
+                      src={logoUrl}
+                      alt={siteName}
+                      fill
+                      className="object-contain"
+                      unoptimized
+                    />
+                  </div>
+                  <span className="font-extrabold text-slate-900 tracking-wide font-display text-xs">
+                    {siteName.toUpperCase()}
+                  </span>
+                </Link>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="p-1.5 rounded-lg hover:bg-slate-50 text-slate-500 transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
+              {/* Navigation Links List */}
+              <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+                {links.map((link, i) => {
+                  const active = pathname === link.href;
+                  return (
+                    <motion.div
+                      key={link.href}
+                      initial={{ opacity: 0, x: 15 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.04 * i }}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setMobileOpen(false)}
+                        className={`flex items-center px-4 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors ${
+                          active
+                            ? "bg-teal-50 text-teal-800 border border-teal-100/50"
+                            : "text-slate-655 hover:bg-slate-50 hover:text-teal-700"
+                        }`}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </nav>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="md:hidden border-t border-slate-200/50 dark:border-slate-700/50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-lg animate-fade-in-down">
-          <div className="container mx-auto px-4 py-4 space-y-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="block text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/30 py-3 px-4 rounded-lg transition-all duration-300"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-    </nav>
+              {/* CTA Drawer Button */}
+              <div className="p-6 border-t border-slate-100">
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-center gap-2 w-full px-5 py-3 bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold uppercase tracking-widest rounded-lg shadow-md transition-colors"
+                >
+                  Get Involved <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

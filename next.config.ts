@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
       },
       {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+      },
+      {
         protocol: "https",
         hostname: "i.pravatar.cc",
       },
