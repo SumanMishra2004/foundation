@@ -16,6 +16,150 @@ export const client = createClient({
   token,
 });
 
+export interface HomeContent {
+  heroTitle?: string;
+  heroSubtitle?: string;
+  heroDescription?: string;
+  heroPrimaryCtaLabel?: string;
+  heroSecondaryCtaLabel?: string;
+  visionTitle?: string;
+  visionDescription?: string;
+  visionIcon?: string;
+  missionTitle?: string;
+  missionDescription?: string;
+  missionIcon?: string;
+  visionMissionEyebrow?: string;
+  commitmentTitle?: string;
+  commitmentDescription?: string;
+  ctaTitle?: string;
+  ctaDescription?: string;
+  showHeroSection?: boolean;
+  showStatsSection?: boolean;
+  showAboutSection?: boolean;
+  showProgramsSection?: boolean;
+  showTransparencySection?: boolean;
+  showTestimonialsSection?: boolean;
+  showVisionMissionSection?: boolean;
+  showQuoteBannerSection?: boolean;
+  showCtaSection?: boolean;
+}
+
+export interface SiteSettings {
+  siteName?: string;
+  tagline?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  logo?: any;
+  navLinks?: Array<{ label?: string; href?: string }>;
+  contactAddress?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  contactHours?: string;
+  footerDescription?: string;
+  footerQuote?: string;
+  focusAreas?: string[];
+  homeHeroEyebrow?: string;
+  homeHeroImage?: any;
+  homeHeroImageAlt?: string;
+  homeStats?: Array<{ number?: string; label?: string }>;
+  homeAboutEyebrow?: string;
+  homeAboutTitle?: string;
+  homeAboutImage?: any;
+  homeAboutImageAlt?: string;
+  homeAboutInceptionYear?: string;
+  homeAboutInceptionLabel?: string;
+  homeAboutLinkLabel?: string;
+  homeProgramsEyebrow?: string;
+  programsIntroTitle?: string;
+  programsIntroDescription?: string;
+  homeProgramsCardLabel?: string;
+  homeProgramsCardLinkAriaLabel?: string;
+  homeTransparencyEyebrow?: string;
+  homeTransparencyTitle?: string;
+  homeTransparencyDescription?: string;
+  homeTransparencyBars?: Array<{
+    label?: string;
+    value?: string;
+    width?: number;
+    color?: string;
+  }>;
+  homeTransparencyBadges?: Array<{
+    title?: string;
+    description?: string;
+  }>;
+  homeTestimonialsEyebrow?: string;
+  homeTestimonialsTitle?: string;
+  homeTestimonialsDescription?: string;
+  homeTestimonials?: Array<{
+    quote?: string;
+    author?: string;
+    role?: string;
+  }>;
+  homeCommitmentTitle?: string;
+  homeCommitmentDescription?: string;
+  homeCommitmentImage?: any;
+  homeCommitmentImageAlt?: string;
+  homeCtaEyebrow?: string;
+  homeCtaTitle?: string;
+  homeCtaDescription?: string;
+  homeCtaPrimaryLabel?: string;
+  homeCtaSecondaryLabel?: string;
+  aboutHeroEyebrow?: string;
+  aboutHeroImage?: any;
+  aboutStoryEyebrow?: string;
+  aboutStoryTitle?: string;
+  aboutStoryPoints?: string[];
+  aboutStoryImage?: any;
+  aboutMilestones?: Array<{ year?: string; title?: string; desc?: string }>;
+  aboutValuesTitle?: string;
+  aboutValuesDescription?: string;
+  aboutValues?: Array<{
+    title?: string;
+    description?: string;
+    icon?: string;
+  }>;
+  aboutWhatWeDoTitle?: string;
+  aboutWhatWeDoDescription?: string;
+  aboutWhatWeDo?: Array<{
+    title?: string;
+    description?: string;
+    icon?: string;
+  }>;
+  aboutQuoteImage?: any;
+  aboutCommitmentTitle?: string;
+  aboutCommitmentDescription?: string;
+  programsHeroEyebrow?: string;
+  programsHeroImage?: any;
+  programsHeroTitle?: string;
+  programsHeroDescription?: string;
+  programsCtaTitle?: string;
+  programsCtaDescription?: string;
+  teamHeroEyebrow?: string;
+  teamHeroImage?: any;
+  teamHeroTitle?: string;
+  teamHeroDescription?: string;
+  teamSectionTitle?: string;
+  teamSectionDescription?: string;
+  teamCtaTitle?: string;
+  teamCtaDescription?: string;
+  advisoryHeroEyebrow?: string;
+  advisoryHeroImage?: any;
+  advisoryHeroTitle?: string;
+  advisoryHeroDescription?: string;
+  advisorySectionTitle?: string;
+  advisorySectionDescription?: string;
+  advisoryCtaTitle?: string;
+  advisoryCtaDescription?: string;
+  contactHeroEyebrow?: string;
+  contactHeroTitle?: string;
+  contactHeroDescription?: string;
+  contactOfficeTitle?: string;
+  contactOfficeDescription?: string;
+  contactFormTitle?: string;
+  contactFormDescription?: string;
+  contactFaqs?: Array<{ q?: string; a?: string }>;
+}
+
 // Fetch functions
 export async function fetchTeamMembers() {
   const query = `*[_type == "teamMember"] | order(order asc) {
@@ -83,23 +227,37 @@ export async function fetchPrograms() {
   }
 }
 
-export async function fetchHomeContent() {
+export async function fetchHomeContent(): Promise<HomeContent | null> {
   const query = `*[_type == "homeContent"][0] {
     heroTitle,
     heroSubtitle,
     heroDescription,
+    heroPrimaryCtaLabel,
+    heroSecondaryCtaLabel,
     visionTitle,
     visionDescription,
+    visionIcon,
     missionTitle,
     missionDescription,
+    missionIcon,
+    visionMissionEyebrow,
     commitmentTitle,
     commitmentDescription,
     ctaTitle,
-    ctaDescription
+    ctaDescription,
+    showHeroSection,
+    showStatsSection,
+    showAboutSection,
+    showProgramsSection,
+    showTransparencySection,
+    showTestimonialsSection,
+    showVisionMissionSection,
+    showQuoteBannerSection,
+    showCtaSection
   }`;
 
   try {
-    const data = await client.fetch(query);
+    const data = await client.fetch<HomeContent>(query);
     return data;
   } catch (error) {
     console.error('Error fetching home content:', error);
@@ -156,7 +314,7 @@ export async function fetchPageContent(slug: string) {
   }
 }
 
-export async function fetchSiteSettings() {
+export async function fetchSiteSettings(): Promise<SiteSettings | null> {
   const query = `*[_type == "siteSettings"][0] {
     siteName,
     tagline,
@@ -173,19 +331,38 @@ export async function fetchSiteSettings() {
     focusAreas,
     homeHeroEyebrow,
     homeHeroImage,
+    homeHeroImageAlt,
     homeStats[]{number, label},
     homeAboutEyebrow,
     homeAboutTitle,
     homeAboutImage,
+    homeAboutImageAlt,
+    homeAboutInceptionYear,
+    homeAboutInceptionLabel,
+    homeAboutLinkLabel,
+    homeProgramsEyebrow,
+    programsIntroTitle,
+    programsIntroDescription,
+    homeProgramsCardLabel,
+    homeProgramsCardLinkAriaLabel,
+    homeTransparencyEyebrow,
     homeTransparencyTitle,
     homeTransparencyDescription,
     homeTransparencyBars[]{label, value, width, color},
+    homeTransparencyBadges[]{title, description},
+    homeTestimonialsEyebrow,
+    homeTestimonialsTitle,
+    homeTestimonialsDescription,
     homeTestimonials[]{quote, author, role},
     homeCommitmentTitle,
     homeCommitmentDescription,
     homeCommitmentImage,
+    homeCommitmentImageAlt,
+    homeCtaEyebrow,
     homeCtaTitle,
     homeCtaDescription,
+    homeCtaPrimaryLabel,
+    homeCtaSecondaryLabel,
     aboutHeroEyebrow,
     aboutHeroImage,
     aboutStoryEyebrow,
@@ -206,8 +383,6 @@ export async function fetchSiteSettings() {
     programsHeroImage,
     programsHeroTitle,
     programsHeroDescription,
-    programsIntroTitle,
-    programsIntroDescription,
     programsCtaTitle,
     programsCtaDescription,
     teamHeroEyebrow,
@@ -237,7 +412,7 @@ export async function fetchSiteSettings() {
   }`;
 
   try {
-    const data = await client.fetch(query);
+    const data = await client.fetch<SiteSettings>(query);
     return data;
   } catch (error) {
     console.error('Error fetching site settings:', error);

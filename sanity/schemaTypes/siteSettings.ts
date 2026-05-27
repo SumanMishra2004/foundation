@@ -4,6 +4,48 @@ export const siteSettings = defineType({
   name: 'siteSettings',
   title: 'Site Settings',
   type: 'document',
+  fieldsets: [
+    {
+      name: 'homeHero',
+      title: 'Hero Settings',
+      description: 'Homepage hero eyebrow and background image settings.',
+    },
+    {
+      name: 'homeStats',
+      title: 'Stats Bar',
+      description: 'Homepage stats counter values.',
+    },
+    {
+      name: 'homeAbout',
+      title: 'About Section',
+      description: 'Homepage about preview labels and image settings.',
+    },
+    {
+      name: 'homePrograms',
+      title: 'Programs Section',
+      description: 'Homepage programs section labels and headings.',
+    },
+    {
+      name: 'homeTransparency',
+      title: 'Transparency Section',
+      description: 'Homepage transparency copy, bars, and badges.',
+    },
+    {
+      name: 'homeTestimonials',
+      title: 'Testimonials / Stories',
+      description: 'Homepage testimonials heading and quotes.',
+    },
+    {
+      name: 'homeQuoteBanner',
+      title: 'Quote Banner',
+      description: 'Homepage quote banner copy and image.',
+    },
+    {
+      name: 'homeCta',
+      title: 'Call To Action',
+      description: 'Homepage CTA eyebrow, copy, and button labels.',
+    },
+  ],
   fields: [
     defineField({
       name: 'siteName',
@@ -105,20 +147,39 @@ export const siteSettings = defineType({
       name: 'homeHeroEyebrow',
       title: 'Home Hero Eyebrow',
       type: 'string',
+      description: 'Eyebrow pill text in the homepage hero section.',
       initialValue: 'Registered Charitable Trust',
+      fieldset: 'homeHero',
     }),
     defineField({
       name: 'homeHeroImage',
       title: 'Home Hero Image',
       type: 'image',
+      description: 'Background image for the homepage hero section.',
       options: {
         hotspot: true,
       },
+      fieldset: 'homeHero',
+    }),
+    defineField({
+      name: 'homeHeroImageAlt',
+      title: 'Home Hero Image Alt Text',
+      type: 'string',
+      description: 'Alt text for the hero background image.',
+      initialValue: 'Aerial view of community village project',
+      fieldset: 'homeHero',
     }),
     defineField({
       name: 'homeStats',
       title: 'Home Stats',
       type: 'array',
+      description: 'Stat numbers and labels displayed in the stats bar.',
+      initialValue: [
+        { number: '12,000+', label: 'Lives Impacted' },
+        { number: '40+', label: 'Rural Villages Served' },
+        { number: '250+', label: 'Active Volunteers' },
+        { number: '85%', label: 'Direct Fund Allocation' },
+      ],
       of: [
         {
           type: 'object',
@@ -130,42 +191,116 @@ export const siteSettings = defineType({
           ],
         },
       ],
+      fieldset: 'homeStats',
     }),
     defineField({
       name: 'homeAboutEyebrow',
       title: 'Home About Eyebrow',
       type: 'string',
+      description: 'Eyebrow label above the homepage about section.',
       initialValue: 'Who We Are',
+      fieldset: 'homeAbout',
     }),
     defineField({
       name: 'homeAboutTitle',
       title: 'Home About Title',
       type: 'string',
+      description: 'Heading for the homepage about preview section.',
       initialValue: 'Uniting Care and Knowledge to Build Sustainable Livelihoods',
+      fieldset: 'homeAbout',
     }),
     defineField({
       name: 'homeAboutImage',
       title: 'Home About Image',
       type: 'image',
+      description: 'Image displayed in the homepage about preview.',
       options: {
         hotspot: true,
       },
+      fieldset: 'homeAbout',
+    }),
+    defineField({
+      name: 'homeAboutImageAlt',
+      title: 'Home About Image Alt Text',
+      type: 'string',
+      description: 'Alt text for the about preview image.',
+      initialValue: 'Community learning initiative',
+      fieldset: 'homeAbout',
+    }),
+    defineField({
+      name: 'homeAboutInceptionYear',
+      title: 'Home About Inception Year',
+      type: 'string',
+      description: 'Year shown in the about image overlay.',
+      initialValue: '2005',
+      fieldset: 'homeAbout',
+    }),
+    defineField({
+      name: 'homeAboutInceptionLabel',
+      title: 'Home About Inception Label',
+      type: 'string',
+      description: 'Label shown below the inception year in the image overlay.',
+      initialValue: 'Inception Year',
+      fieldset: 'homeAbout',
+    }),
+    defineField({
+      name: 'homeAboutLinkLabel',
+      title: 'Home About Link Label',
+      type: 'string',
+      description: 'Link label for the about section CTA.',
+      initialValue: 'Read Our Full Story',
+      fieldset: 'homeAbout',
+    }),
+    defineField({
+      name: 'homeTransparencyEyebrow',
+      title: 'Home Transparency Eyebrow',
+      type: 'string',
+      description: 'Eyebrow label above the transparency section.',
+      initialValue: 'Transparency',
+      fieldset: 'homeTransparency',
     }),
     defineField({
       name: 'homeTransparencyTitle',
       title: 'Home Transparency Title',
       type: 'string',
+      description: 'Headline for the transparency section.',
       initialValue: '85% of Funds Go Directly to Program Execution',
+      fieldset: 'homeTransparency',
     }),
     defineField({
       name: 'homeTransparencyDescription',
       title: 'Home Transparency Description',
       type: 'text',
+      description: 'Paragraph copy under the transparency headline.',
+      initialValue:
+        'We maintain strict accountability. Administrative and fundraising costs are kept to a bare minimum (15% combined) to ensure that donations directly support grassroots execution in villages and slums.',
+      fieldset: 'homeTransparency',
     }),
     defineField({
       name: 'homeTransparencyBars',
       title: 'Home Transparency Bars',
       type: 'array',
+      description: 'Progress bar labels and values for transparency metrics.',
+      initialValue: [
+        {
+          label: 'Direct Program Execution',
+          value: '85%',
+          width: 85,
+          color: 'bg-teal-600',
+        },
+        {
+          label: 'Administrative Management & Support',
+          value: '10%',
+          width: 10,
+          color: 'bg-slate-400',
+        },
+        {
+          label: 'Development & Fundraising',
+          value: '5%',
+          width: 5,
+          color: 'bg-slate-300',
+        },
+      ],
       of: [
         {
           type: 'object',
@@ -179,11 +314,87 @@ export const siteSettings = defineType({
           ],
         },
       ],
+      fieldset: 'homeTransparency',
+    }),
+    defineField({
+      name: 'homeTransparencyBadges',
+      title: 'Home Transparency Badges',
+      type: 'array',
+      description: 'Badge titles and descriptions shown next to the bars.',
+      initialValue: [
+        {
+          title: 'Tax Exemptions',
+          description:
+            'Donations qualify for valid 80G tax exemptions under Indian Trust Registration acts.',
+        },
+        {
+          title: 'Minimal Overhead',
+          description:
+            'Strict audit standards ensure funds are utilized with maximal efficiency.',
+        },
+        {
+          title: 'Annual Reports',
+          description:
+            'Verified balance sheets, annual project reviews, and medical camp summaries are published transparently for public auditing.',
+        },
+      ],
+      of: [
+        {
+          type: 'object',
+          name: 'transparencyBadge',
+          title: 'Transparency Badge',
+          fields: [
+            { name: 'title', title: 'Title', type: 'string' },
+            { name: 'description', title: 'Description', type: 'text' },
+          ],
+        },
+      ],
+      fieldset: 'homeTransparency',
+    }),
+    defineField({
+      name: 'homeTestimonialsEyebrow',
+      title: 'Home Testimonials Eyebrow',
+      type: 'string',
+      description: 'Eyebrow label above the testimonials section.',
+      initialValue: 'Our Impact',
+      fieldset: 'homeTestimonials',
+    }),
+    defineField({
+      name: 'homeTestimonialsTitle',
+      title: 'Home Testimonials Title',
+      type: 'string',
+      description: 'Heading for the testimonials section.',
+      initialValue: 'Stories of Direct Hope',
+      fieldset: 'homeTestimonials',
+    }),
+    defineField({
+      name: 'homeTestimonialsDescription',
+      title: 'Home Testimonials Description',
+      type: 'text',
+      description: 'Supporting paragraph under the testimonials heading.',
+      initialValue:
+        'Real voices from families, students, and elders whom IKC Foundation programs have had the privilege to serve.',
+      fieldset: 'homeTestimonials',
     }),
     defineField({
       name: 'homeTestimonials',
       title: 'Home Testimonials',
       type: 'array',
+      description: 'Quotes, names, and roles for the testimonials list.',
+      initialValue: [
+        {
+          quote:
+            "The free health camp in our village diagnosed my mother's cardiac condition just in time. The medication support provided by IKC has been a blessing.",
+          author: 'Ramesh Mondal',
+          role: 'Farmer, Sundarbans Region',
+        },
+        {
+          quote:
+            'Thanks to the IKC study fellowship, I can continue my college education without placing a financial burden on my father.',
+          author: 'Priya Sharma',
+          role: 'Science Undergraduate Student',
+        },
+      ],
       of: [
         {
           type: 'object',
@@ -196,36 +407,83 @@ export const siteSettings = defineType({
           ],
         },
       ],
+      fieldset: 'homeTestimonials',
     }),
     defineField({
       name: 'homeCommitmentTitle',
       title: 'Home Commitment Title',
       type: 'string',
+      description: 'Attribution label under the quote banner divider line.',
       initialValue: 'Our Commitment',
+      fieldset: 'homeQuoteBanner',
     }),
     defineField({
       name: 'homeCommitmentDescription',
       title: 'Home Commitment Description',
       type: 'text',
+      description: 'Italic quote text in the homepage quote banner.',
+      initialValue:
+        'We believe that real change begins with localized, transparent, and direct community care.',
+      fieldset: 'homeQuoteBanner',
     }),
     defineField({
       name: 'homeCommitmentImage',
       title: 'Home Commitment Image',
       type: 'image',
+      description: 'Background image for the homepage quote banner.',
       options: {
         hotspot: true,
       },
+      fieldset: 'homeQuoteBanner',
+    }),
+    defineField({
+      name: 'homeCommitmentImageAlt',
+      title: 'Home Commitment Image Alt Text',
+      type: 'string',
+      description: 'Alt text for the quote banner background image.',
+      initialValue: 'Rural outreach community support',
+      fieldset: 'homeQuoteBanner',
+    }),
+    defineField({
+      name: 'homeCtaEyebrow',
+      title: 'Home CTA Eyebrow',
+      type: 'string',
+      description: 'Eyebrow label above the homepage CTA section.',
+      initialValue: 'Join Our Outreach',
+      fieldset: 'homeCta',
     }),
     defineField({
       name: 'homeCtaTitle',
       title: 'Home CTA Title',
       type: 'string',
+      description: 'Headline for the homepage CTA section.',
       initialValue: 'Become Part of the Change Today',
+      fieldset: 'homeCta',
     }),
     defineField({
       name: 'homeCtaDescription',
       title: 'Home CTA Description',
       type: 'text',
+      description: 'Supporting CTA paragraph on the homepage.',
+      initialValue:
+        'Your involvement helps us expand our mobile health clinics, build learning classrooms, and protect regional ecology.',
+      fieldset: 'homeCta',
+    }),
+    defineField({
+      name: 'homeCtaPrimaryLabel',
+      title: 'Home CTA Primary Button Label',
+      type: 'string',
+      description: 'Label for the primary CTA button.',
+      initialValue: 'Inquire & Volunteer',
+      fieldset: 'homeCta',
+    }),
+    defineField({
+      name: 'homeCtaSecondaryLabel',
+      title: 'Home CTA Secondary Button Label',
+      type: 'string',
+      description: 'Label for the secondary CTA button.',
+      initialValue: 'Learn More About IKC',
+      fieldset: 'homeCta',
     }),
     defineField({
       name: 'aboutHeroEyebrow',
@@ -385,15 +643,45 @@ export const siteSettings = defineType({
       type: 'text',
     }),
     defineField({
+      name: 'homeProgramsEyebrow',
+      title: 'Home Programs Eyebrow',
+      type: 'string',
+      description: 'Eyebrow label above the homepage programs section.',
+      initialValue: 'Our Programs',
+      fieldset: 'homePrograms',
+    }),
+    defineField({
       name: 'programsIntroTitle',
       title: 'Programs Intro Title',
       type: 'string',
-      initialValue: 'Core Initiatives & Sub-projects',
+      description: 'Heading for the homepage programs section.',
+      initialValue: 'Core Fields of Active Engagement',
+      fieldset: 'homePrograms',
     }),
     defineField({
       name: 'programsIntroDescription',
       title: 'Programs Intro Description',
       type: 'text',
+      description: 'Supporting paragraph for the homepage programs section.',
+      initialValue:
+        'Direct grassroots interventions seeking to address basic life needs, educational growth, and ecological balance.',
+      fieldset: 'homePrograms',
+    }),
+    defineField({
+      name: 'homeProgramsCardLabel',
+      title: 'Home Programs Card Label',
+      type: 'string',
+      description: 'Small label shown on each homepage program card.',
+      initialValue: 'Active Program',
+      fieldset: 'homePrograms',
+    }),
+    defineField({
+      name: 'homeProgramsCardLinkAriaLabel',
+      title: 'Home Programs Card Link Aria Label',
+      type: 'string',
+      description: 'Aria label for the program card arrow link.',
+      initialValue: 'View program details',
+      fieldset: 'homePrograms',
     }),
     defineField({
       name: 'programsCtaTitle',

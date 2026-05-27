@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Link from "next/link";
@@ -53,7 +55,7 @@ export function Navbar({ settings }: { settings?: NavbarSettings }) {
             : "bg-[#FAF7E6]/80 backdrop-blur-sm border-b border-slate-200/30"
         }`}
       >
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8 h-16">
+        <nav className=" flex items-center justify-between px-5 sm:px-8 h-16">
           {/* Brand Identity */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative h-8 w-8 overflow-hidden rounded-full border border-teal-600/20 bg-white shadow-sm p-0.5 shrink-0">

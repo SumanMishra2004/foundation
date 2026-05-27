@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
-import { Montserrat, DM_Sans } from "next/font/google";
+import { Libre_Baskerville } from "next/font/google";
+// @ts-expect-error -- Next.js supports global CSS side-effect imports in app/layout.tsx
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { fetchSiteSettings } from "@/lib/sanity";
 
-const montserrat = Montserrat({
+const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
-  variable: "--font-montserrat",
+  variable: "--font-librebaskerville",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-dm-sans",
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -67,9 +62,11 @@ export default async function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${montserrat.variable} ${dmSans.variable}`}
+      className={libreBaskerville.variable}
     >
-      <body className="font-sans antialiased bg-[#FAF7E6] text-[#0f172a]">
+      <body
+        className={`${libreBaskerville.className} antialiased bg-[#FAF7E6] text-[#0f172a]`}
+      >
         <Navbar settings={settings} />
         <main>{children}</main>
         <Footer settings={settings} />
