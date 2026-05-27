@@ -8,6 +8,9 @@ import KeynoteSpeakers from "@/components/sections/KeynoteSpeakers";
 import Registration from "@/components/sections/Registration";
 import SponsorsPartners from "@/components/sections/SponsorsPartners";
 import VenueTravel from "@/components/sections/VenueTravel";
+import Submissions from "@/components/sections/Submissions";
+import Committee from "@/components/sections/Committee";
+import Faq from "@/components/sections/Faq";
 import {
   fallbackAbout,
   fallbackAgenda,
@@ -16,9 +19,13 @@ import {
   fallbackInvitedSpeakers,
   fallbackKeynoteSpeakers,
   fallbackRegistration,
+  fallbackSiteSettings,
   fallbackSponsors,
   fallbackTheme,
   fallbackVenue,
+  fallbackSubmissions,
+  fallbackCommittee,
+  fallbackFaqs,
 } from "@/lib/fallback-data";
 import { client } from "@/lib/sanity/client";
 import {
@@ -29,9 +36,13 @@ import {
   invitedSpeakersQuery,
   keynoteSpeakersQuery,
   registrationQuery,
+  siteSettingsQuery,
   sponsorsQuery,
   themeQuery,
   venueQuery,
+  submissionsQuery,
+  committeeQuery,
+  faqQuery,
 } from "@/lib/sanity/queries";
 import type {
   AboutData,
@@ -39,10 +50,14 @@ import type {
   CountdownData,
   HeroData,
   RegistrationData,
+  SiteSettings,
   Speaker,
   SponsorsData,
   ThemeData,
   VenueData,
+  SubmissionData,
+  CommitteeData,
+  FaqData,
 } from "@/lib/sanity/types";
 
 export const revalidate = 60;
@@ -58,6 +73,7 @@ async function fetchWithFallback<T>(query: string, fallback: T): Promise<T> {
 
 export default async function Page() {
   const [
+    settings,
     hero,
     countdown,
     about,
@@ -68,7 +84,11 @@ export default async function Page() {
     registration,
     venue,
     sponsors,
+    submissions,
+    committee,
+    faq,
   ] = await Promise.all([
+    fetchWithFallback<SiteSettings>(siteSettingsQuery, fallbackSiteSettings),
     fetchWithFallback<HeroData>(heroQuery, fallbackHero),
     fetchWithFallback<CountdownData>(countdownQuery, fallbackCountdown),
     fetchWithFallback<AboutData>(aboutQuery, fallbackAbout),
@@ -79,20 +99,26 @@ export default async function Page() {
     fetchWithFallback<RegistrationData>(registrationQuery, fallbackRegistration),
     fetchWithFallback<VenueData>(venueQuery, fallbackVenue),
     fetchWithFallback<SponsorsData>(sponsorsQuery, fallbackSponsors),
+    fetchWithFallback<SubmissionData>(submissionsQuery, fallbackSubmissions),
+    fetchWithFallback<CommitteeData>(committeeQuery, fallbackCommittee),
+    fetchWithFallback<FaqData>(faqQuery, fallbackFaqs),
   ]);
 
   return (
     <>
-      <HeroBanner data={hero} />
-      <CountdownTimer data={countdown} />
-      <AboutConference data={about} />
-      <ConferenceTheme data={theme} />
-      <KeynoteSpeakers speakers={keynoteSpeakers} />
-      <InvitedSpeakers speakers={invitedSpeakers} />
-      <AgendaTeaser data={agenda} />
-      <Registration data={registration} />
-      <VenueTravel data={venue} />
-      <SponsorsPartners data={sponsors} />
+      {settings.showHero && <HeroBanner data={hero} />}
+      {settings.showCountdown && <CountdownTimer data={countdown} />}
+      {settings.showAbout && <AboutConference data={about} />}
+      {settings.showSubmissions && <Submissions data={submissions} />}
+      {settings.showTheme && <ConferenceTheme data={theme} />}
+      {settings.showKeynoteSpeakers && <KeynoteSpeakers speakers={keynoteSpeakers} />}
+      {settings.showInvitedSpeakers && <InvitedSpeakers speakers={invitedSpeakers} />}
+      {settings.showCommittee && <Committee data={committee} />}
+      {settings.showAgenda && <AgendaTeaser data={agenda} />}
+      {settings.showRegistration && <Registration data={registration} />}
+      {settings.showVenue && <VenueTravel data={venue} />}
+      {settings.showFaqs && <Faq data={faq} />}
+      {settings.showSponsors && <SponsorsPartners data={sponsors} />}
     </>
   );
 }

@@ -10,20 +10,50 @@ import type {
   SponsorsData,
   NavData,
   FooterData,
+  SiteSettings,
+  SubmissionData,
+  CommitteeData,
+  FaqData,
 } from "./sanity/types";
 
+export const fallbackSiteSettings: SiteSettings = {
+  showHero: true,
+  showCountdown: true,
+  showAbout: true,
+  showTheme: true,
+  showKeynoteSpeakers: true,
+  showInvitedSpeakers: true,
+  showAgenda: true,
+  showRegistration: true,
+  showVenue: true,
+  showSponsors: true,
+  showSubmissions: true,
+  showCommittee: true,
+  showFaqs: true,
+  showCertificates: false,
+};
+
 export const fallbackHero: HeroData = {
-  conferenceName: "Lorem Summit 2025",
-  edition: "Inaugural Edition · 2025",
+  conferenceName: "Lorem Summit 2026",
+  subtitle: "International Conference on Innovation & Technology",
+  edition: "Inaugural Edition · 2026",
   tagline: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  date: "15 November 2025",
+  date: "15 November 2026",
   venue: "Kolkata · Biswa Bangla Convention Centre",
   ctaLabel: "Register Now",
   ctaLink: "#registration",
+  secondaryCtaLabel: "View Schedule",
+  secondaryCtaLink: "#agenda",
+  highlightStats: [
+    { value: "500+", label: "Attendees" },
+    { value: "20+", label: "Speakers" },
+    { value: "1", label: "Day" },
+    { value: "10+", label: "Workshops" },
+  ],
 };
 
 export const fallbackCountdown: CountdownData = {
-  eventDate: "2025-11-15T09:00:00.000Z",
+  eventDate: "2026-11-15T09:00:00.000Z",
 };
 
 export const fallbackAbout: AboutData = {
@@ -307,4 +337,65 @@ export const fallbackFooter: FooterData = {
   linkedinUrl: "https://linkedin.com/company/loremsummit",
   instagramUrl: "https://instagram.com/loremsummit",
   copyright: "© 2025 Lorem Summit. All rights reserved.",
+};
+
+export const fallbackSubmissions: SubmissionData = {
+  heading: "Call for Papers",
+  intro: "We invite submissions of high-quality, original research papers presenting innovative ideas, results, and experiences in the areas of computer science, artificial intelligence, and digital transformation.",
+  tracks: [
+    "Artificial Intelligence & Machine Learning",
+    "Data Science & Predictive Analytics",
+    "Internet of Things (IoT) & Embedded Systems",
+    "Cybersecurity & Data Privacy",
+    "Cloud Computing & Distributed Infrastructures",
+    "Human-Computer Interaction (HCI)"
+  ],
+  importantDates: [
+    { title: "Abstract Submission", dateString: "15 August 2025", badge: "Extended", isPassed: true },
+    { title: "Full Paper Submission", dateString: "31 August 2025", badge: "Firm", isPassed: false },
+    { title: "Notification of Acceptance", dateString: "30 September 2025", isPassed: false },
+    { title: "Camera-Ready Copy (CRC)", dateString: "15 October 2025", isPassed: false },
+    { title: "Author Registration Deadline", dateString: "30 October 2025", isPassed: false }
+  ],
+  submissionInstructions: "Papers must be submitted electronically in PDF format via Microsoft CMT. All submissions must follow the standard IEEE double-column conference template (maximum 6 pages including references). The review process is double-blind.",
+  submissionLink: "https://cmt3.research.microsoft.com"
+};
+
+export const fallbackCommittee: CommitteeData = {
+  heading: "Organizing Committee",
+  committeeGroups: [
+    {
+      groupName: "Steering Committee",
+      members: [
+        { name: "Prof. Jane Consectetur", designation: "Professor, Dept. of CSE", organization: "IIT Kharagpur", role: "General Chair" },
+        { name: "Prof. Jane Consectetur", designation: "Dean of Academic Affairs", organization: "Stanford University", role: "Co-Chair" }
+      ]
+    },
+    {
+      groupName: "Technical Program Committee (TPC)",
+      members: [
+        { name: "Dr. Lorem Ipsum", designation: "Associate Professor", organization: "MIT", role: "TPC Chair" },
+        { name: "Dr. Adipiscing Elite", designation: "Senior Principal Scientist", organization: "DeepMind", role: "TPC Co-Chair" },
+        { name: "Prof. Laoreet Dolore", designation: "Head of Data Science", organization: "Oxford University", role: "Member" },
+        { name: "Dr. Magna Aliquam", designation: "Research Lead", organization: "OpenAI", role: "Member" }
+      ]
+    },
+    {
+      groupName: "Local Organizing Committee",
+      members: [
+        { name: "Prof. Nonummy Nibh", designation: "Professor & Head", organization: "Biswa Bangla Tech", role: "Organizing Chair" },
+        { name: "Dr. Euismod Tincidunt", designation: "Assistant Professor", organization: "Kolkata University", role: "Treasurer" }
+      ]
+    }
+  ]
+};
+
+export const fallbackFaqs: FaqData = {
+  heading: "Frequently Asked Questions",
+  faqs: [
+    { question: "Is the conference hybrid or fully in-person?", answer: "Lorem Summit 2025 will be held as a hybrid conference. International delegates can present online, while local participants are highly encouraged to attend in person at the Biswa Bangla Convention Centre." },
+    { question: "How many pages are allowed for paper submission?", answer: "Initial submissions are limited to a maximum of 6 pages in standard IEEE conference formatting. Up to 2 additional pages can be purchased during registration for final camera-ready copy." },
+    { question: "When will the registration close?", answer: "Early bird registration closes on 15 October 2025. Standard registration closes on 10 November 2025, or when seats are fully booked." },
+    { question: "Will certificates be provided for attendees?", answer: "Yes, all registered attendees and paper presenters will receive certificate certificates of participation and presentation. These will be available for download on this portal post-conference." }
+  ]
 };

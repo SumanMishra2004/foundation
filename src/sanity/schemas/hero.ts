@@ -6,12 +6,15 @@ export default defineType({
   type: "document",
   initialValue: {
     conferenceName: "Lorem Summit 2025",
+    subtitle: "International Conference on Innovation & Technology",
     edition: "Inaugural Edition · 2025",
     tagline: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     date: "15 November 2025",
     venue: "Kolkata · Biswa Bangla Convention Centre",
     ctaLabel: "Register Now",
     ctaLink: "#registration",
+    secondaryCtaLabel: "View Schedule",
+    secondaryCtaLink: "#agenda",
   },
   fields: [
     defineField({
@@ -19,6 +22,13 @@ export default defineType({
       title: "Conference Name",
       type: "string",
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "subtitle",
+      title: "Subtitle",
+      type: "string",
+      description:
+        "Secondary line displayed above the conference name (e.g., 'International Conference on...')",
     }),
     defineField({
       name: "edition",
@@ -41,22 +51,72 @@ export default defineType({
       type: "string",
     }),
     defineField({
+      name: "heroImage",
+      title: "Hero Image",
+      type: "image",
+      description:
+        "Conference-related image displayed alongside the hero text (not as background). Recommended: 800x600px or larger.",
+      options: { hotspot: true },
+    }),
+    defineField({
       name: "backgroundImage",
       title: "Background Image",
       type: "image",
       description:
-        "Use an event image. Placeholder URL: https://images.unsplash.com/photo-1540575467063-178a50c2df87",
+        "Full-screen background image for the hero section. Recommended: 1920x1080px or larger, conference/event related.",
       options: { hotspot: true },
     }),
     defineField({
       name: "ctaLabel",
-      title: "CTA Button Label",
+      title: "Primary CTA Button Label",
       type: "string",
     }),
     defineField({
       name: "ctaLink",
-      title: "CTA Button Link",
+      title: "Primary CTA Button Link",
       type: "string",
+    }),
+    defineField({
+      name: "secondaryCtaLabel",
+      title: "Secondary CTA Button Label",
+      type: "string",
+    }),
+    defineField({
+      name: "secondaryCtaLink",
+      title: "Secondary CTA Button Link",
+      type: "string",
+    }),
+    defineField({
+      name: "highlightStats",
+      title: "Highlight Stats",
+      type: "array",
+      description:
+        "Quick stats displayed in the hero section (e.g., '500+ Attendees')",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "value",
+              title: "Value",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "label",
+              title: "Label",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+          preview: {
+            select: {
+              title: "value",
+              subtitle: "label",
+            },
+          },
+        },
+      ],
     }),
   ],
 });

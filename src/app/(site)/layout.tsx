@@ -1,9 +1,9 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { fallbackFooter, fallbackNav } from "@/lib/fallback-data";
+import { fallbackFooter, fallbackNav, fallbackSiteSettings } from "@/lib/fallback-data";
 import { client } from "@/lib/sanity/client";
-import { footerQuery, navQuery } from "@/lib/sanity/queries";
-import type { FooterData, NavData } from "@/lib/sanity/types";
+import { footerQuery, navQuery, siteSettingsQuery } from "@/lib/sanity/queries";
+import type { FooterData, NavData, SiteSettings } from "@/lib/sanity/types";
 
 export const revalidate = 60;
 
@@ -21,16 +21,17 @@ export default async function SiteLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [nav, footer] = await Promise.all([
+  const [nav, footer, settings] = await Promise.all([
     fetchWithFallback<NavData>(navQuery, fallbackNav),
     fetchWithFallback<FooterData>(footerQuery, fallbackFooter),
+    fetchWithFallback<SiteSettings>(siteSettingsQuery, fallbackSiteSettings),
   ]);
 
   return (
     <>
-      <Navbar data={nav} />
+      <Navbar data={nav} showCertificates={settings.showCertificates} />
       <main className="flex-1">{children}</main>
-      <Footer data={footer} />
+      <Footer data={footer} showCertificates={settings.showCertificates} />
     </>
   );
 }

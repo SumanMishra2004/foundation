@@ -13,16 +13,39 @@ export interface SanityImage {
   };
 }
 
+// Site Settings (Section Visibility)
+export interface SiteSettings {
+  showHero: boolean;
+  showCountdown: boolean;
+  showAbout: boolean;
+  showTheme: boolean;
+  showKeynoteSpeakers: boolean;
+  showInvitedSpeakers: boolean;
+  showAgenda: boolean;
+  showRegistration: boolean;
+  showVenue: boolean;
+  showSponsors: boolean;
+  showSubmissions: boolean;
+  showCommittee: boolean;
+  showFaqs: boolean;
+  showCertificates: boolean;
+}
+
 // Hero Section
 export interface HeroData {
   conferenceName: string;
+  subtitle?: string;
   edition: string;
   tagline: string;
   date: string;
   venue: string;
+  heroImage?: SanityImage;
   backgroundImage?: SanityImage;
   ctaLabel: string;
   ctaLink: string;
+  secondaryCtaLabel?: string;
+  secondaryCtaLink?: string;
+  highlightStats?: { value: string; label: string }[];
 }
 
 // Countdown Section
@@ -139,4 +162,60 @@ export interface FooterData {
   linkedinUrl: string;
   instagramUrl: string;
   copyright: string;
+}
+
+// Submissions / Call for Papers
+export interface ImportantDate {
+  title: string;
+  dateString: string;
+  badge?: string;
+  isPassed: boolean;
+}
+
+export interface SubmissionData {
+  heading: string;
+  intro: string;
+  tracks: string[];
+  importantDates: ImportantDate[];
+  submissionInstructions: string;
+  submissionLink: string;
+}
+
+// Committee
+export interface CommitteeMember {
+  name: string;
+  designation: string;
+  organization: string;
+  role?: string;
+  image?: SanityImage;
+}
+
+export interface CommitteeGroup {
+  groupName: string;
+  members: CommitteeMember[];
+}
+
+export interface CommitteeData {
+  heading: string;
+  committeeGroups: CommitteeGroup[];
+}
+
+// FAQ
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface FaqData {
+  heading: string;
+  faqs: FaqItem[];
+}
+
+// Certificate
+export interface CertificateData {
+  name: string;
+  email: string;
+  role: string;
+  presentationTitle?: string;
+  certificateCode: string;
 }

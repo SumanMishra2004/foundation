@@ -1,14 +1,36 @@
 import { groq } from "next-sanity";
 
+export const siteSettingsQuery = groq`*[_type == "siteSettings"][0]{
+  showHero,
+  showCountdown,
+  showAbout,
+  showTheme,
+  showKeynoteSpeakers,
+  showInvitedSpeakers,
+  showAgenda,
+  showRegistration,
+  showVenue,
+  showSponsors,
+  showSubmissions,
+  showCommittee,
+  showFaqs,
+  showCertificates
+}`;
+
 export const heroQuery = groq`*[_type == "hero"][0]{
   conferenceName,
+  subtitle,
   edition,
   tagline,
   date,
   venue,
+  heroImage,
   backgroundImage,
   ctaLabel,
-  ctaLink
+  ctaLink,
+  secondaryCtaLabel,
+  secondaryCtaLink,
+  highlightStats
 }`;
 
 export const countdownQuery = groq`*[_type == "countdown"][0]{
@@ -93,4 +115,23 @@ export const footerQuery = groq`*[_type == "footer"][0]{
   linkedinUrl,
   instagramUrl,
   copyright
+}`;
+
+export const submissionsQuery = groq`*[_type == "submissions"][0]{
+  heading,
+  intro,
+  tracks,
+  importantDates,
+  submissionInstructions,
+  submissionLink
+}`;
+
+export const committeeQuery = groq`*[_type == "committee"][0]{
+  heading,
+  committeeGroups
+}`;
+
+export const faqQuery = groq`*[_type == "faq"][0]{
+  heading,
+  faqs
 }`;

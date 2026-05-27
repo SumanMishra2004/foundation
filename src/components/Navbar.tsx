@@ -10,19 +10,26 @@ import type { NavData } from "@/lib/sanity/types";
 
 interface NavbarProps {
   data: NavData;
+  showCertificates?: boolean;
 }
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Theme", href: "#theme" },
-  { label: "Speakers", href: "#speakers" },
-  { label: "Schedule", href: "#agenda" },
-  { label: "Register", href: "#registration" },
+  { label: "About", href: "/#about" },
+  { label: "CFP", href: "/#submissions" },
+  { label: "Speakers", href: "/#speakers" },
+  { label: "Committee", href: "/#committee" },
+  { label: "Schedule", href: "/#agenda" },
+  { label: "FAQs", href: "/#faqs" },
+  { label: "Certificates", href: "/certificates" },
 ];
 
-export default function Navbar({ data }: NavbarProps) {
+export default function Navbar({ data, showCertificates = false }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const visibleLinks = navLinks.filter(
+    (link) => link.href !== "/certificates" || showCertificates
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,7 +68,7 @@ export default function Navbar({ data }: NavbarProps) {
               />
             ) : (
               <span
-                className={`heading-display text-xl sm:text-2xl font-normal transition-colors ${
+                  className={`heading-display text-xl sm:text-2xl font-normal transition-colors ${
                   scrolled ? "text-navy" : "text-white"
                 }`}
               >
@@ -72,7 +79,7 @@ export default function Navbar({ data }: NavbarProps) {
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
+            {visibleLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -114,7 +121,7 @@ export default function Navbar({ data }: NavbarProps) {
                   </div>
                   <div className="flex-1 p-6">
                     <div className="space-y-1">
-                      {navLinks.map((link) => (
+                      {visibleLinks.map((link) => (
                         <a
                           key={link.href}
                           href={link.href}
