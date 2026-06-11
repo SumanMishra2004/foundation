@@ -214,6 +214,7 @@ export async function fetchPrograms() {
     description,
     icon,
     color,
+    link,
     details,
     order
   }`;
@@ -224,6 +225,28 @@ export async function fetchPrograms() {
   } catch (error) {
     console.error('Error fetching programs:', error);
     return [];
+  }
+}
+
+export async function fetchGallery() {
+  const query = `*[_type == "gallery"][0] {
+    title,
+    images[]{
+      ...,
+      caption,
+      description,
+      year,
+      location,
+      alt
+    }
+  }`;
+
+  try {
+    const data = await client.fetch(query);
+    return data;
+  } catch (error) {
+    console.error('Error fetching gallery:', error);
+    return null;
   }
 }
 

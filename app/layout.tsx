@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Libre_Baskerville } from "next/font/google";
-// @ts-expect-error -- Next.js supports global CSS side-effect imports in app/layout.tsx
+
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -57,6 +57,31 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const settings = await fetchSiteSettings();
+  const navbarSettings = settings
+    ? {
+        siteName: settings.siteName,
+        tagline: settings.tagline,
+        logo: settings.logo,
+        navLinks: (settings.navLinks ?? []).filter(
+          (link): link is { href: string; label: string } =>
+            typeof link?.href === "string" && typeof link?.label === "string"
+        ),
+      }
+    : undefined;
+
+  const footerSettings = settings
+    ? {
+        siteName: settings.siteName,
+        tagline: settings.tagline,
+        logo: settings.logo,
+        footerDescription: settings.footerDescription,
+        footerQuote: settings.footerQuote,
+        focusAreas: settings.focusAreas,
+        contactAddress: settings.contactAddress,
+        contactEmail: settings.contactEmail,
+        contactPhone: settings.contactPhone,
+      }
+    : undefined;
 
   return (
     <html
@@ -67,9 +92,9 @@ export default async function RootLayout({
       <body
         className={`${libreBaskerville.className} antialiased bg-[#FAF7E6] text-[#0f172a]`}
       >
-        <Navbar settings={settings} />
+        <Navbar settings={navbarSettings} />
         <main>{children}</main>
-        <Footer settings={settings} />
+        <Footer settings={footerSettings} />
       </body>
     </html>
   );

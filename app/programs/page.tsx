@@ -14,14 +14,14 @@ import {
   Sparkles,
   CheckCircle2,
 } from "lucide-react";
-import { fetchPrograms } from "@/lib/sanity";
-import { fetchSiteSettings } from "@/lib/sanity";
+import { fetchPrograms, fetchGallery, fetchSiteSettings } from "@/lib/sanity";
 import { urlFor } from "@/lib/image";
 import {
   FadeIn,
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/motion-wrapper";
+import { PhotoSlider } from "@/components/ui/photo-slider";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   GraduationCap,
@@ -40,6 +40,7 @@ export const revalidate = 60;
 export default async function ProgramsPage() {
   const rawPrograms = await fetchPrograms();
   const settings = await fetchSiteSettings();
+  const gallery = await fetchGallery();
 
   const programs =
     rawPrograms?.length > 0
@@ -208,7 +209,7 @@ export default async function ProgramsPage() {
                         {prog.title}
                       </h3>
                       {prog.description && (
-                        <p className="text-[11px] sm:text-xs text-slate-500 font-sans-modern mt-0.5 line-clamp-1">
+                        <p className="text-[11px] sm:text-xs text-slate-500 font-sans-modern mt-0.5">
                           {prog.description}
                         </p>
                       )}
@@ -235,9 +236,15 @@ export default async function ProgramsPage() {
                     <span className="text-[8px] sm:text-[9px] uppercase font-bold tracking-widest text-slate-400 font-sans-modern">
                       Active Deployment
                     </span>
-                    <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-teal-600 group-hover:text-white group-hover:border-teal-600 transition-all duration-200">
-                      <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                    </div>
+                    {prog.link ? (
+                      <Link href={prog.link} className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-teal-600 group-hover:text-white group-hover:border-teal-600 transition-all duration-200">
+                        <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                      </Link>
+                    ) : (
+                      <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-teal-600 group-hover:text-white group-hover:border-teal-600 transition-all duration-200">
+                        <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                      </div>
+                    )}
                   </div>
                 </StaggerItem>
               );
@@ -245,6 +252,30 @@ export default async function ProgramsPage() {
           </StaggerContainer>
         </div>
       </section>
+
+      {/* ================= GALLERY SECTION ================= */}
+      {gallery?.images && gallery.images.length > 0 && (
+        <section className="py-20 lg:py-24 bg-[#FAF7E6]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <FadeIn direction="up">
+              <div className="text-center mb-10">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-700 border border-teal-100 mb-4 font-sans-modern">
+                  Field Operations
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-display">
+                  {gallery.title || "Program Gallery"}
+                </h2>
+                <p className="mt-2 text-xs sm:text-sm text-slate-500 font-sans-modern">
+                  A visual record of our outreach programs, community events, and field deployments.
+                </p>
+              </div>
+            </FadeIn>
+            <div className="w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl ring-1 ring-slate-200">
+              <PhotoSlider images={gallery.images} />
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ================= CTA SECTION ================= */}
       <section className="py-20 lg:py-24 bg-slate-950 text-white relative">

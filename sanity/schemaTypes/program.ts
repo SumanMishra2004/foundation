@@ -34,6 +34,12 @@ export const program = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'link',
+      title: 'Program Link',
+      type: 'string',
+      description: 'External or internal link for this program (optional)',
+    }),
+    defineField({
       name: 'details',
       title: 'Program Detailed List Items',
       type: 'array',

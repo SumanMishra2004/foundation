@@ -427,7 +427,7 @@ export default async function Home() {
                 .slice(0, 6)
                 .map(
                   (
-                    prog: { title: string; description: string; icon: string },
+                    prog: { title: string; description: string; icon: string; link?: string },
                     idx: number,
                   ) => {
                     const IconComp = iconMap[prog.icon] || Sparkles;
@@ -453,7 +453,7 @@ export default async function Home() {
                             {programsCardLabel}
                           </span>
                           <Link
-                            href="/programs"
+                            href={prog.link || "/programs"}
                             aria-label={programsCardLinkAriaLabel}
                             className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all duration-200"
                           >

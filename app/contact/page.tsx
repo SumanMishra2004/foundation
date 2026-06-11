@@ -5,11 +5,17 @@ import { ContactForm } from "@/components/contact/ContactForm";
 
 export const revalidate = 60;
 
+type FaqItem = {
+  q: string;
+  a: string;
+};
+
 export default async function ContactPage() {
   const settings = await fetchSiteSettings();
 
-  const faqs = settings?.contactFaqs?.length
-    ? settings.contactFaqs
+  const settingsFaqs = settings?.contactFaqs ?? [];
+  const faqs: FaqItem[] = (settingsFaqs.length > 0
+    ? settingsFaqs
     : [
         {
           q: "Is IKC Foundation a registered trust?",
@@ -27,7 +33,10 @@ export default async function ContactPage() {
           q: "How can corporate partners collaborate through CSR?",
           a: "IKC is fully certified for Corporate Social Responsibility (CSR) projects. We collaborate with companies to run targeted health clinics, build computer learning centers, and execute afforestation drives with verifiable impact reviews.",
         },
-      ];
+      ]).map((faq: Partial<FaqItem>) => ({
+    q: faq?.q || "",
+    a: faq?.a || "",
+  }));
 
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden min-h-screen">
@@ -153,7 +162,7 @@ export default async function ContactPage() {
         </div>
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          {faqs.map((faq: { q: string; a: string }, idx: number) => (
+          {faqs.map((faq: FaqItem, idx: number) => (
             <StaggerItem key={idx} className="bg-white border border-slate-200/80 rounded-2xl p-5 sm:p-6 shadow-sm">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#FAF7E6] flex items-center justify-center text-teal-700 shrink-0">

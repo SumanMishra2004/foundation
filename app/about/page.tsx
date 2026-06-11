@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Heart, Target, Lightbulb, Users, Zap, Sparkles, Calendar, Award, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Heart, Target, Lightbulb, Users, Zap, Sparkles, Calendar, CheckCircle2 } from "lucide-react";
 import { fetchAboutContent } from "@/lib/sanity";
 import { fetchSiteSettings } from "@/lib/sanity";
 import { urlFor } from "@/lib/image";
@@ -13,6 +13,24 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Users,
   Zap,
   Sparkles,
+};
+
+type ValueItem = {
+  title: string;
+  description: string;
+  icon: string;
+};
+
+type WhatWeDoItem = {
+  title: string;
+  description: string;
+  icon: string;
+};
+
+type MilestoneItem = {
+  year: string;
+  title: string;
+  desc: string;
 };
 
 export const revalidate = 60;
@@ -31,30 +49,45 @@ export default async function AboutPage() {
     missionDescription: aboutData?.missionDescription || "To drive direct, impactful social initiatives in rural and underprivileged communities through education, healthcare camps, and ecological conservation projects.",
   };
 
-  const valuesList = settings?.aboutValues?.length > 0
-    ? settings.aboutValues
-    : aboutData?.valuesList?.length > 0 ? aboutData.valuesList : [
+  const settingsValues = settings?.aboutValues ?? [];
+  const aboutValues = aboutData?.valuesList ?? [];
+  const valuesSource = settingsValues.length > 0 ? settingsValues : aboutValues;
+  const valuesList: ValueItem[] = (valuesSource.length > 0 ? valuesSource : [
     { title: "Active Compassion", description: "Approaching community needs with deep empathy and active care.", icon: "Heart" },
     { title: "Inclusive Empowerment", description: "Providing equal opportunities to marginalized families without discrimination.", icon: "Users" },
     { title: "Grassroots Innovation", description: "Utilizing creative, local resources to solve complex environmental and medical access problems.", icon: "Zap" }
-  ];
+  ]).map((item: Partial<ValueItem>) => ({
+    title: item?.title || "",
+    description: item?.description || "",
+    icon: item?.icon || "Sparkles",
+  }));
 
-  const whatWeDoList = settings?.aboutWhatWeDo?.length > 0
-    ? settings.aboutWhatWeDo
-    : aboutData?.whatWeDoList?.length > 0 ? aboutData.whatWeDoList : [
+  const settingsWhatWeDo = settings?.aboutWhatWeDo ?? [];
+  const aboutWhatWeDo = aboutData?.whatWeDoList ?? [];
+  const whatWeDoSource = settingsWhatWeDo.length > 0 ? settingsWhatWeDo : aboutWhatWeDo;
+  const whatWeDoList: WhatWeDoItem[] = (whatWeDoSource.length > 0 ? whatWeDoSource : [
     { title: "Learning & Education Support", description: "Distributing study kits, supporting rural schools, and funding academic fellowships.", icon: "🎓" },
     { title: "Mobile Diagnostics & Health Camps", description: "Providing primary clinical checkups, diagnosis, and medicine support.", icon: "🏥" },
     { title: "Community & Women Empowerment", description: "Creating local self-help groups, vocational training, and support networks.", icon: "👥" },
     { title: "Eco-Preservation & Afforestation", description: "Promoting community plantation drives, wildlife preservation, and clean water awareness.", icon: "🌱" }
-  ];
+  ]).map((item: Partial<WhatWeDoItem>) => ({
+    title: item?.title || "",
+    description: item?.description || "",
+    icon: item?.icon || "✨",
+  }));
 
-  const milestones = settings?.aboutMilestones?.length > 0 ? settings.aboutMilestones : [
+  const settingsMilestones = settings?.aboutMilestones ?? [];
+  const milestones: MilestoneItem[] = (settingsMilestones.length > 0 ? settingsMilestones : [
     { year: "2005", title: "Trust Inception", desc: "IKC Foundation registered as an official charitable trust in Newtown, Kolkata." },
     { year: "2011", title: "First Mobile Medical Camp", desc: "Launched mobile diagnostics and medical camps to support rural areas in West Bengal." },
     { year: "2018", title: "Scholarship Foundation", desc: "Started the learning scholarship program, funding education for over 500 underprivileged students." },
     { year: "2023", title: "Ecology Initiative", desc: "Initiated regional forest protection and afforestation programs, planting over 20,000 trees." },
     { year: "2026", title: "Global Advisory Integration", desc: "Formed a global academic advisory council to direct our programs and ensure global support." }
-  ];
+  ]).map((item) => ({
+    year: item?.year || "",
+    title: item?.title || "",
+    desc: item?.desc || "",
+  }));
 
   const heroImageUrl = settings?.aboutHeroImage ? urlFor(settings.aboutHeroImage).url() : "/about-bg.png";
   const storyImageUrl = settings?.aboutStoryImage ? urlFor(settings.aboutStoryImage).url() : "/about-banner.png";
@@ -216,7 +249,7 @@ export default async function AboutPage() {
             <div className="absolute left-4 sm:left-1/2 top-0 bottom-0 w-[1.5px] bg-slate-200 -translate-x-1/2" />
 
             <div className="space-y-12 relative">
-              {milestones.map((milestone: { year: string; title: string; desc: string }, idx: number) => (
+              {milestones.map((milestone: MilestoneItem, idx: number) => (
                 <FadeIn key={idx} direction={idx % 2 === 0 ? "right" : "left"} className="flex flex-col sm:flex-row items-start sm:justify-between group">
                   {/* Left segment */}
                   <div className={`w-full sm:w-[45%] pl-12 sm:pl-0 text-left sm:text-right ${idx % 2 === 0 ? "block" : "sm:invisible h-0 sm:h-auto overflow-hidden sm:overflow-visible"}`}>
@@ -273,7 +306,7 @@ export default async function AboutPage() {
           </div>
 
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {valuesList.map((val: any, idx: number) => {
+            {valuesList.map((val: ValueItem, idx: number) => {
               const IconComp = iconMap[val.icon] || Sparkles;
               return (
                 <StaggerItem
@@ -316,7 +349,7 @@ export default async function AboutPage() {
           </div>
 
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {whatWeDoList.map((item: any, idx: number) => (
+            {whatWeDoList.map((item: WhatWeDoItem, idx: number) => (
               <StaggerItem
                 key={idx}
                 className="bg-slate-950/45 border border-slate-800/80 rounded-xl p-8 flex items-start gap-6 hover:bg-slate-950/80 transition-colors duration-200 group"
