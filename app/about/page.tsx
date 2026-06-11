@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Heart, Target, Lightbulb, Users, Zap, Sparkles, Calendar, CheckCircle2 } from "lucide-react";
-import { fetchAboutContent } from "@/lib/sanity";
-import { fetchSiteSettings } from "@/lib/sanity";
+import { fetchAboutContent, fetchSiteSettings, type AboutContent } from "@/lib/sanity";
 import { urlFor } from "@/lib/image";
 import { FadeIn, StaggerContainer, StaggerItem, ScaleIn } from "@/components/ui/motion-wrapper";
 
@@ -36,69 +35,89 @@ type MilestoneItem = {
 export const revalidate = 60;
 
 export default async function AboutPage() {
-  const aboutData = await fetchAboutContent();
+  const aboutData: AboutContent | null = await fetchAboutContent();
   const settings = await fetchSiteSettings();
 
-  const content = {
-    heroTitle: aboutData?.heroTitle || "Who We Are & What We Stand For",
-    heroSubtitle: aboutData?.heroSubtitle || "IKC Foundation is a dedicated charitable trust driving inclusive growth, rural health, and learning accessibility.",
-    introText: aboutData?.introText || "Founded with a vision to merge direct compassionate care with scalable social knowledge, we operate medical camps, community centers, environmental projects, and academic fellowships across underprivileged regions.",
-    visionTitle: aboutData?.visionTitle || "Our Vision",
-    visionDescription: aboutData?.visionDescription || "To build a just, compassionate, and healthy society where every individual has access to opportunities for a dignified and empowered life.",
-    missionTitle: aboutData?.missionTitle || "Our Mission",
-    missionDescription: aboutData?.missionDescription || "To drive direct, impactful social initiatives in rural and underprivileged communities through education, healthcare camps, and ecological conservation projects.",
-  };
+  const siteName = settings?.siteName || "IKC Foundation";
 
-  const settingsValues = settings?.aboutValues ?? [];
-  const aboutValues = aboutData?.valuesList ?? [];
-  const valuesSource = settingsValues.length > 0 ? settingsValues : aboutValues;
-  const valuesList: ValueItem[] = (valuesSource.length > 0 ? valuesSource : [
-    { title: "Active Compassion", description: "Approaching community needs with deep empathy and active care.", icon: "Heart" },
-    { title: "Inclusive Empowerment", description: "Providing equal opportunities to marginalized families without discrimination.", icon: "Users" },
-    { title: "Grassroots Innovation", description: "Utilizing creative, local resources to solve complex environmental and medical access problems.", icon: "Zap" }
-  ]).map((item: Partial<ValueItem>) => ({
-    title: item?.title || "",
-    description: item?.description || "",
-    icon: item?.icon || "Sparkles",
-  }));
+  // Hero Section Details
+  const heroEyebrow = aboutData?.heroEyebrow || "About IKC Trust";
+  const heroTitle = aboutData?.heroTitle || "Who We Are & What We Stand For";
+  const heroSubtitle = aboutData?.heroSubtitle || "IKC Foundation is a dedicated charitable trust driving inclusive growth, rural health, and learning accessibility.";
+  const heroImageUrl = aboutData?.heroImage
+    ? urlFor(aboutData.heroImage).url()
+    : "/about-bg.png";
 
-  const settingsWhatWeDo = settings?.aboutWhatWeDo ?? [];
-  const aboutWhatWeDo = aboutData?.whatWeDoList ?? [];
-  const whatWeDoSource = settingsWhatWeDo.length > 0 ? settingsWhatWeDo : aboutWhatWeDo;
-  const whatWeDoList: WhatWeDoItem[] = (whatWeDoSource.length > 0 ? whatWeDoSource : [
-    { title: "Learning & Education Support", description: "Distributing study kits, supporting rural schools, and funding academic fellowships.", icon: "🎓" },
-    { title: "Mobile Diagnostics & Health Camps", description: "Providing primary clinical checkups, diagnosis, and medicine support.", icon: "🏥" },
-    { title: "Community & Women Empowerment", description: "Creating local self-help groups, vocational training, and support networks.", icon: "👥" },
-    { title: "Eco-Preservation & Afforestation", description: "Promoting community plantation drives, wildlife preservation, and clean water awareness.", icon: "🌱" }
-  ]).map((item: Partial<WhatWeDoItem>) => ({
-    title: item?.title || "",
-    description: item?.description || "",
-    icon: item?.icon || "✨",
-  }));
-
-  const settingsMilestones = settings?.aboutMilestones ?? [];
-  const milestones: MilestoneItem[] = (settingsMilestones.length > 0 ? settingsMilestones : [
-    { year: "2005", title: "Trust Inception", desc: "IKC Foundation registered as an official charitable trust in Newtown, Kolkata." },
-    { year: "2011", title: "First Mobile Medical Camp", desc: "Launched mobile diagnostics and medical camps to support rural areas in West Bengal." },
-    { year: "2018", title: "Scholarship Foundation", desc: "Started the learning scholarship program, funding education for over 500 underprivileged students." },
-    { year: "2023", title: "Ecology Initiative", desc: "Initiated regional forest protection and afforestation programs, planting over 20,000 trees." },
-    { year: "2026", title: "Global Advisory Integration", desc: "Formed a global academic advisory council to direct our programs and ensure global support." }
-  ]).map((item) => ({
-    year: item?.year || "",
-    title: item?.title || "",
-    desc: item?.desc || "",
-  }));
-
-  const heroImageUrl = settings?.aboutHeroImage ? urlFor(settings.aboutHeroImage).url() : "/about-bg.png";
-  const storyImageUrl = settings?.aboutStoryImage ? urlFor(settings.aboutStoryImage).url() : "/about-banner.png";
-  const storyPoints = settings?.aboutStoryPoints?.length
-    ? settings.aboutStoryPoints
+  // Story Details
+  const storyEyebrow = aboutData?.storyEyebrow || "Our Background";
+  const storyTitle = aboutData?.storyTitle || "Merging Direct Care with Intellectual Development";
+  const introText = aboutData?.introText || "Founded with a vision to merge direct compassionate care with scalable social knowledge, we operate medical camps, community centers, environmental projects, and academic fellowships across underprivileged regions.";
+  const storyPoints = aboutData?.storyPoints?.length
+    ? aboutData.storyPoints
     : [
         "85% direct-to-field program allocation ratio.",
         "Mobile health camps providing diagnosis, checkups, and free medicines.",
         "Fellowships and study grants to fund underprivileged girls' higher education.",
         "Community afforestation projects and conservation drives.",
       ];
+  const storyImageUrl = aboutData?.storyImage
+    ? urlFor(aboutData.storyImage).url()
+    : "/about-banner.png";
+
+  // Vision / Mission Details
+  const visionTitle = aboutData?.visionTitle || "Our Vision";
+  const visionDescription = aboutData?.visionDescription || "To build a just, compassionate, and healthy society where every individual has access to opportunities for a dignified and empowered life.";
+  const missionTitle = aboutData?.missionTitle || "Our Mission";
+  const missionDescription = aboutData?.missionDescription || "To drive direct, impactful social initiatives in rural and underprivileged communities through education, healthcare camps, and ecological conservation projects.";
+
+  // Milestones Timeline
+  const milestones: MilestoneItem[] = (aboutData?.milestones?.length
+    ? aboutData.milestones
+    : [
+        { year: "2005", title: "Trust Inception", desc: "IKC Foundation registered as an official charitable trust in Newtown, Kolkata." },
+        { year: "2011", title: "First Mobile Medical Camp", desc: "Launched mobile diagnostics and medical camps to support rural areas in West Bengal." },
+        { year: "2018", title: "Scholarship Foundation", desc: "Started the learning scholarship program, funding education for over 500 underprivileged students." },
+        { year: "2023", title: "Ecology Initiative", desc: "Initiated regional forest protection and afforestation programs, planting over 20,000 trees." },
+        { year: "2026", title: "Global Advisory Integration", desc: "Formed a global academic advisory council to direct our programs and ensure global support." }
+      ]).map((item) => ({
+    year: item?.year || "",
+    title: item?.title || "",
+    desc: item?.desc || "",
+  }));
+
+  // Values Grid
+  const valuesTitle = aboutData?.valuesTitle || "Our Foundation Values";
+  const valuesDescription = aboutData?.valuesDescription || "The core guidelines driving our volunteer deployments, fund management, and strategic projects.";
+  const valuesList: ValueItem[] = (aboutData?.valuesList?.length
+    ? aboutData.valuesList
+    : [
+        { title: "Active Compassion", description: "Approaching community needs with deep empathy and active care.", icon: "Heart" },
+        { title: "Inclusive Empowerment", description: "Providing equal opportunities to marginalized families without discrimination.", icon: "Users" },
+        { title: "Grassroots Innovation", description: "Utilizing creative, local resources to solve complex environmental and medical access problems.", icon: "Zap" }
+      ]).map((item) => ({
+    title: item?.title || "",
+    description: item?.description || "",
+    icon: item?.icon || "Sparkles",
+  }));
+
+  // What We Do Grid
+  const whatWeDoTitle = aboutData?.whatWeDoTitle || "Primary Spheres of Action";
+  const whatWeDoDescription = aboutData?.whatWeDoDescription || "Reaching communities with comprehensive support focusing on learning accessibility and fundamental healthcare.";
+  const whatWeDoList: WhatWeDoItem[] = (aboutData?.whatWeDoList?.length
+    ? aboutData.whatWeDoList
+    : [
+        { title: "Learning & Education Support", description: "Distributing study kits, supporting rural schools, and funding academic fellowships.", icon: "🎓" },
+        { title: "Mobile Diagnostics & Health Camps", description: "Providing primary clinical checkups, diagnosis, and medicine support.", icon: "🏥" },
+        { title: "Community & Women Empowerment", description: "Creating local self-help groups, vocational training, and support networks.", icon: "👥" },
+        { title: "Eco-Preservation & Afforestation", description: "Promoting community plantation drives, wildlife preservation, and clean water awareness.", icon: "🌱" }
+      ]).map((item) => ({
+    title: item?.title || "",
+    description: item?.description || "",
+    icon: item?.icon || "✨",
+  }));
+
+  const whatWeDoLinkLabel = aboutData?.whatWeDoLinkLabel || "Explore Active Programs";
+  const whatWeDoLinkHref = aboutData?.whatWeDoLinkHref || "/programs";
 
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden">
@@ -108,7 +127,7 @@ export default async function AboutPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src={heroImageUrl}
-            alt={settings?.siteName || "About IKC Foundation background banner"}
+            alt={siteName || "About IKC Foundation background banner"}
             fill
             priority
             className="object-cover object-center"
@@ -123,19 +142,19 @@ export default async function AboutPage() {
           <FadeIn direction="down" delay={0.1}>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-100 border border-teal-500/30 backdrop-blur-md mb-6 font-display">
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-              {settings?.aboutHeroEyebrow || "About IKC Trust"}
+              {heroEyebrow}
             </span>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.2}>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white font-display mb-6 max-w-4xl mx-auto uppercase">
-              {content.heroTitle}
+              {heroTitle}
             </h1>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.3}>
             <p className="text-xs sm:text-sm text-slate-100/85 font-sans-modern leading-relaxed max-w-2xl mx-auto">
-              {content.heroSubtitle}
+              {heroSubtitle}
             </p>
           </FadeIn>
         </div>
@@ -149,13 +168,13 @@ export default async function AboutPage() {
             <div className="lg:col-span-7 flex flex-col items-start text-left">
               <FadeIn direction="right">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-800 border border-teal-100 mb-6 font-display">
-                  {settings?.aboutStoryEyebrow || "Our Background"}
+                  {storyEyebrow}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-display mb-6 leading-snug">
-                  {settings?.aboutStoryTitle || "Merging Direct Care with Intellectual Development"}
+                  {storyTitle}
                 </h2>
                 <p className="text-slate-700 leading-relaxed font-sans-modern mb-8 text-xs sm:text-sm">
-                  {content.introText}
+                  {introText}
                 </p>
 
                 {/* Direct Action Points */}
@@ -172,12 +191,12 @@ export default async function AboutPage() {
 
             {/* Right Image Frame */}
             <div className="lg:col-span-5 relative w-full flex justify-center">
-              <ScaleIn delay={0.2} className="relative w-full aspect-video lg:aspect-square max-w-100">
+              <ScaleIn delay={0.2} className="relative w-full aspect-video lg:aspect-square max-w-md">
                 <div className="absolute inset-0 bg-linear-to-tr from-teal-600/10 to-transparent rounded-2xl rotate-2 scale-102" />
                 <div className="absolute inset-0 bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
                   <Image
                     src={storyImageUrl}
-                    alt={settings?.siteName || "About IKC Foundation Story"}
+                    alt={siteName || "About IKC Foundation Story"}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 400px"
@@ -201,10 +220,10 @@ export default async function AboutPage() {
               </div>
               <div>
                 <h3 className="text-lg font-bold text-slate-900 font-display mb-3 uppercase tracking-wide">
-                  {content.visionTitle}
+                  {visionTitle}
                 </h3>
                 <p className="text-slate-650 text-xs leading-relaxed font-sans-modern">
-                  {content.visionDescription}
+                  {visionDescription}
                 </p>
               </div>
             </FadeIn>
@@ -216,10 +235,10 @@ export default async function AboutPage() {
               </div>
               <div>
                 <h3 className="text-lg font-bold text-white font-display mb-3 uppercase tracking-wide">
-                  {content.missionTitle}
+                  {missionTitle}
                 </h3>
                 <p className="text-slate-350 text-xs leading-relaxed font-sans-modern">
-                  {content.missionDescription}
+                  {missionDescription}
                 </p>
               </div>
             </FadeIn>
@@ -233,7 +252,7 @@ export default async function AboutPage() {
           <div className="text-center max-w-2xl mx-auto mb-16">
             <FadeIn direction="down">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-800 border border-teal-100 mb-6 font-display">
-                {settings?.aboutMilestones?.length ? "Our History" : "Our History"}
+                Our History
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-display mb-4">
                 Milestones of Sustainable Impact
@@ -255,7 +274,7 @@ export default async function AboutPage() {
                   <div className={`w-full sm:w-[45%] pl-12 sm:pl-0 text-left sm:text-right ${idx % 2 === 0 ? "block" : "sm:invisible h-0 sm:h-auto overflow-hidden sm:overflow-visible"}`}>
                     {idx % 2 === 0 && (
                       <div>
-                        <span className="inline-block px-3 py-1 rounded-lg bg-teal-605 bg-teal-600 text-white font-extrabold text-xs mb-2 font-display">
+                        <span className="inline-block px-3 py-1 rounded-lg bg-teal-600 text-white font-extrabold text-xs mb-2 font-display">
                           {milestone.year}
                         </span>
                         <h4 className="text-sm font-bold text-slate-900 font-display mb-1">{milestone.title}</h4>
@@ -273,7 +292,7 @@ export default async function AboutPage() {
                   <div className={`w-full sm:w-[45%] pl-12 sm:pl-8 text-left ${idx % 2 !== 0 ? "block" : "sm:invisible h-0 sm:h-auto overflow-hidden sm:overflow-visible"}`}>
                     {idx % 2 !== 0 && (
                       <div>
-                        <span className="inline-block px-3 py-1 rounded-lg bg-teal-605 bg-teal-600 text-white font-extrabold text-xs mb-2 font-display">
+                        <span className="inline-block px-3 py-1 rounded-lg bg-teal-600 text-white font-extrabold text-xs mb-2 font-display">
                           {milestone.year}
                         </span>
                         <h4 className="text-sm font-bold text-slate-900 font-display mb-1">{milestone.title}</h4>
@@ -293,14 +312,14 @@ export default async function AboutPage() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <FadeIn direction="down">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-850 mb-6 font-display">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-800 border border-teal-100 mb-6 font-display">
                 What Guides Us
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-display mb-4">
-                {settings?.aboutValuesTitle || "Our Foundation Values"}
+                {valuesTitle}
               </h2>
               <p className="text-xs text-slate-500 font-sans-modern leading-relaxed">
-                {settings?.aboutValuesDescription || "The core guidelines driving our volunteer deployments, fund management, and strategic projects."}
+                {valuesDescription}
               </p>
             </FadeIn>
           </div>
@@ -316,7 +335,7 @@ export default async function AboutPage() {
                   <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center text-teal-700 mb-6 group-hover:scale-105 transition-transform duration-200">
                     <IconComp className="w-5 h-5" />
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 font-display mb-3 group-hover:text-teal-750 transition-colors uppercase tracking-wide">
+                  <h3 className="text-base font-bold text-slate-900 font-display mb-3 group-hover:text-teal-700 transition-colors uppercase tracking-wide">
                     {val.title}
                   </h3>
                   <p className="text-slate-500 text-xs leading-relaxed font-sans-modern">
@@ -331,7 +350,7 @@ export default async function AboutPage() {
 
       {/* ================= WHAT WE DO GRID ================= */}
       <section className="py-20 lg:py-24 bg-slate-900 text-white relative">
-        <div className="absolute inset-0 z-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-size-[32px_32px] opacity-[0.03] pointer-events-none" />
+        <div className="absolute inset-0 z-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[size:32px_32px] opacity-[0.03] pointer-events-none" />
 
         <div className="w-full px-5 sm:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16">
@@ -340,10 +359,10 @@ export default async function AboutPage() {
                 Our Work Scope
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white font-display mb-4">
-                {settings?.aboutWhatWeDoTitle || "Primary Spheres of Action"}
+                {whatWeDoTitle}
               </h2>
               <p className="text-xs text-slate-400 font-sans-modern leading-relaxed">
-                {settings?.aboutWhatWeDoDescription || "Reaching communities with comprehensive support focusing on learning accessibility and fundamental healthcare."}
+                {whatWeDoDescription}
               </p>
             </FadeIn>
           </div>
@@ -359,7 +378,7 @@ export default async function AboutPage() {
                   <h3 className="text-base font-bold text-slate-100 font-display mb-2 group-hover:text-teal-400 transition-colors uppercase tracking-wide">
                     {item.title}
                   </h3>
-                  <p className="text-slate-455 text-slate-400 text-xs leading-relaxed font-sans-modern">
+                  <p className="text-slate-400 text-xs leading-relaxed font-sans-modern">
                     {item.description}
                   </p>
                 </div>
@@ -370,10 +389,10 @@ export default async function AboutPage() {
           <div className="text-center mt-16">
             <FadeIn direction="up">
               <Link
-                href="/programs"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-teal-650 hover:bg-teal-700 hover:text-white text-white text-xs font-bold uppercase tracking-widest rounded transition-all duration-200 font-display"
+                href={whatWeDoLinkHref}
+                className="inline-flex items-center gap-2 px-6 py-3.5 bg-teal-600 hover:bg-teal-700 hover:text-white text-white text-xs font-bold uppercase tracking-widest rounded transition-all duration-200 font-display"
               >
-                Explore Active Programs <ArrowRight className="w-4 h-4" />
+                {whatWeDoLinkLabel} <ArrowRight className="w-4 h-4" />
               </Link>
             </FadeIn>
           </div>

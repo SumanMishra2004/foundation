@@ -66,6 +66,8 @@ export default async function RootLayout({
           (link): link is { href: string; label: string } =>
             typeof link?.href === "string" && typeof link?.label === "string"
         ),
+        navbarCtaLabel: settings.navbarCtaLabel,
+        navbarCtaLink: settings.navbarCtaLink,
       }
     : undefined;
 
@@ -80,6 +82,8 @@ export default async function RootLayout({
         contactAddress: settings.contactAddress,
         contactEmail: settings.contactEmail,
         contactPhone: settings.contactPhone,
+        footerQuickLinks: settings.footerQuickLinks,
+        footerBottomLinks: settings.footerBottomLinks,
       }
     : undefined;
 

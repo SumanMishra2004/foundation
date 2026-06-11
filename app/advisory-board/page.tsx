@@ -1,19 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Award, Users, Globe, BookOpen, GraduationCap, ShieldAlert } from "lucide-react";
-import { fetchAdvisoryBoard } from "@/lib/sanity";
-import { fetchSiteSettings } from "@/lib/sanity";
+import { ArrowRight, Award, Users, Globe, BookOpen, GraduationCap, ShieldCheck, ShieldAlert } from "lucide-react";
+import { fetchAdvisoryBoard, fetchSiteSettings, fetchAdvisoryContent, type AdvisoryPageContent } from "@/lib/sanity";
 import { urlFor } from "@/lib/image";
 import {
   FadeIn,
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/motion-wrapper";
+import { type SanityImage } from "@/lib/sanity";
 
-interface SanityImage {
-  _type: "image";
-  asset: { _ref: string; _type: "reference" };
-}
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Users,
+  Globe,
+  BookOpen,
+  GraduationCap,
+  Award,
+  ShieldCheck,
+};
 
 interface AdvisoryMember {
   _id: string;
@@ -30,15 +34,44 @@ export const revalidate = 60;
 
 export default async function AdvisoryBoardPage() {
   const members: AdvisoryMember[] = await fetchAdvisoryBoard();
+  const pageContent: AdvisoryPageContent | null = await fetchAdvisoryContent();
   const settings = await fetchSiteSettings();
-  const heroImageUrl = settings?.advisoryHeroImage ? urlFor(settings.advisoryHeroImage).url() : "/hero-community.png";
 
-  const stats = [
-    { number: "10+", label: "Academic Mentors", icon: Users },
-    { number: "4+", label: "Countries Represented", icon: Globe },
-    { number: "25+", label: "Research Studies", icon: BookOpen },
-    { number: "1,200+", label: "Students Advised", icon: GraduationCap },
-  ];
+  const siteName = settings?.siteName || "IKC Foundation";
+
+  // Page Specific Content from Advisory Board Singleton
+  const heroEyebrow = pageContent?.heroEyebrow || "Strategic Advisors";
+  const heroTitle = pageContent?.heroTitle || "Our Advisory Board";
+  const heroDescription = pageContent?.heroDescription || "World-class researchers, public health experts, and environmentalists providing strategic direction to IKC trust initiatives.";
+  const heroImageUrl = pageContent?.heroImage
+    ? urlFor(pageContent.heroImage).url()
+    : "/hero-community.png";
+
+  const sectionTitle = pageContent?.sectionTitle || "Guided by Global Experience";
+  const sectionDescription = pageContent?.sectionDescription || "Evaluating programs, conducting periodic project audits, and ensuring alignment with international social development standards.";
+
+  const fallbackStudioLabel = pageContent?.fallbackStudioLabel || "Open Studio";
+  const fallbackStudioLink = pageContent?.fallbackStudioLink || "/studio";
+
+  const ctaTitle = pageContent?.ctaTitle || "Promoting Scientific & Grassroots Research";
+  const ctaDescription = pageContent?.ctaDescription || "Our board coordinates partnerships with environmental bodies, research universities, and public health institutes.";
+  const ctaPrimaryLabel = pageContent?.ctaPrimaryLabel || "Inquire With Council";
+  const ctaPrimaryLink = pageContent?.ctaPrimaryLink || "/contact";
+  const ctaSecondaryLabel = pageContent?.ctaSecondaryLabel || "Meet Executive Team";
+  const ctaSecondaryLink = pageContent?.ctaSecondaryLink || "/about";
+
+  const stats = pageContent?.stats?.length
+    ? pageContent.stats.map((stat) => ({
+        number: stat.number,
+        label: stat.label,
+        icon: iconMap[stat.icon || "Users"] || Users,
+      }))
+    : [
+        { number: "10+", label: "Academic Mentors", icon: Users },
+        { number: "4+", label: "Countries Represented", icon: Globe },
+        { number: "25+", label: "Research Studies", icon: BookOpen },
+        { number: "1,200+", label: "Students Advised", icon: GraduationCap },
+      ];
 
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden">
@@ -48,7 +81,7 @@ export default async function AdvisoryBoardPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src={heroImageUrl}
-            alt={settings?.siteName || "Advisory Board background"}
+            alt={siteName || "Advisory Board background"}
             fill
             priority
             className="object-cover"
@@ -71,26 +104,26 @@ export default async function AdvisoryBoardPage() {
           <FadeIn direction="down" delay={0.1}>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-100 border border-teal-500/30 backdrop-blur-md mb-6 font-sans-modern">
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-              {settings?.advisoryHeroEyebrow || "Strategic Advisors"}
+              {heroEyebrow}
             </span>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.2}>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.08] text-white font-display mb-4 sm:mb-5">
-              {settings?.advisoryHeroTitle || "Our Advisory Board"}
+              {heroTitle}
             </h1>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.3}>
             <p className="text-xs sm:text-sm text-slate-100/85 font-sans-modern leading-relaxed max-w-2xl mx-auto">
-              {settings?.advisoryHeroDescription || "World-class researchers, public health experts, and environmentalists providing strategic direction to IKC trust initiatives."}
+              {heroDescription}
             </p>
           </FadeIn>
         </div>
       </section>
 
       {/* ================= STATS BAR ================= */}
-      <section className="bg-white border-y border-slate-200/60 py-10 relative z-10 shadow-sm shadow-slate-100/30">
+      <section className="bg-white border-y border-slate-200 py-10 relative z-10 shadow-sm shadow-slate-100/30">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, idx) => {
@@ -106,7 +139,7 @@ export default async function AdvisoryBoardPage() {
                   <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display block mb-1">
                     {stat.number}
                   </span>
-                  <span className="text-[9px] uppercase font-bold tracking-widest text-slate-505 text-slate-500 font-sans-modern">
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-slate-500 font-sans-modern">
                     {stat.label}
                   </span>
                 </StaggerItem>
@@ -126,10 +159,10 @@ export default async function AdvisoryBoardPage() {
                 Board Council
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-display mb-4">
-                {settings?.advisorySectionTitle || "Guided by Global Experience"}
+                {sectionTitle}
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 font-sans-modern leading-relaxed">
-                {settings?.advisorySectionDescription || "Evaluating programs, conducting periodic project audits, and ensuring alignment with international social development standards."}
+                {sectionDescription}
               </p>
             </FadeIn>
           </div>
@@ -148,7 +181,7 @@ export default async function AdvisoryBoardPage() {
                 return (
                   <StaggerItem
                     key={member._id}
-                    className="group overflow-hidden rounded-2xl bg-white border border-slate-205 border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 relative grid grid-cols-1 sm:grid-cols-[104px_minmax(0,1fr)] xl:grid-cols-1"
+                    className="group overflow-hidden rounded-2xl bg-white border border-slate-200 p-6 sm:p-7 shadow-sm hover:shadow-md transition-all duration-300 relative grid grid-cols-1 sm:grid-cols-[104px_minmax(0,1fr)] xl:grid-cols-1"
                   >
                     {/* Academic Award Badge */}
                     <div className="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center shadow-md shadow-teal-900/20">
@@ -220,10 +253,10 @@ export default async function AdvisoryBoardPage() {
                 Add council members dynamically using the integrated Content Studio.
               </p>
               <Link
-                href="/studio"
+                href={fallbackStudioLink}
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all font-sans-modern"
               >
-                Open Studio <ArrowRight className="w-3.5 h-3.5" />
+                {fallbackStudioLabel} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </FadeIn>
           )}
@@ -249,23 +282,23 @@ export default async function AdvisoryBoardPage() {
               Advisory Board Engagement
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white font-display mb-4 sm:mb-5">
-              {settings?.advisoryCtaTitle || "Promoting Scientific &amp; Grassroots Research"}
+              {ctaTitle}
             </h2>
             <p className="text-[10px] sm:text-xs text-slate-400 leading-relaxed font-sans-modern mb-7 sm:mb-8 max-w-xl mx-auto">
-              {settings?.advisoryCtaDescription || "Our board coordinates partnerships with environmental bodies, research universities, and public health institutes."}
+              {ctaDescription}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                href="/contact"
+                href={ctaPrimaryLink}
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-teal-600 hover:bg-teal-700 text-white text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-200 shadow-md shadow-teal-900/10 font-sans-modern w-full sm:w-auto"
               >
-                Inquire With Council <ArrowRight className="w-3.5 h-3.5" />
+                {ctaPrimaryLabel} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <Link
-                href="/about"
+                href={ctaSecondaryLink}
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 border border-slate-800 hover:border-slate-350 text-slate-300 hover:bg-white/10 text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-200 font-sans-modern w-full sm:w-auto"
               >
-                Meet Executive Team
+                {ctaSecondaryLabel}
               </Link>
             </div>
           </FadeIn>

@@ -1,19 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ShieldAlert } from "lucide-react";
-import { fetchTeamMembers } from "@/lib/sanity";
-import { fetchSiteSettings } from "@/lib/sanity";
+import { fetchTeamMembers, fetchSiteSettings, fetchTeamContent, type TeamPageContent } from "@/lib/sanity";
 import { urlFor } from "@/lib/image";
 import {
   FadeIn,
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/motion-wrapper";
-
-interface SanityImage {
-  _type: "image";
-  asset: { _ref: string; _type: "reference" };
-}
+import { type SanityImage } from "@/lib/sanity";
 
 interface TeamMember {
   _id: string;
@@ -32,8 +27,31 @@ export const revalidate = 60;
 
 export default async function TeamPage() {
   const members: TeamMember[] = await fetchTeamMembers();
+  const pageContent: TeamPageContent | null = await fetchTeamContent();
   const settings = await fetchSiteSettings();
-  const heroImageUrl = settings?.teamHeroImage ? urlFor(settings.teamHeroImage).url() : "/about-bg.png";
+
+  const siteName = settings?.siteName || "IKC Foundation";
+
+  // Page specific content from Team Page Content singleton
+  const heroEyebrow = pageContent?.heroEyebrow || "Our People";
+  const heroTitle = pageContent?.heroTitle || "Meet Our Executive Team";
+  const heroDescription = pageContent?.heroDescription || "Meet the volunteers, managers, and coordinators driving regional healthcare camps and learning centers.";
+  const heroImageUrl = pageContent?.heroImage
+    ? urlFor(pageContent.heroImage).url()
+    : "/about-bg.png";
+
+  const sectionTitle = pageContent?.sectionTitle || "Guided by Care & Service";
+  const sectionDescription = pageContent?.sectionDescription || "Dedicated professionals coordinating healthcare diagnostic teams, learning campaigns, and conservation projects.";
+
+  const fallbackStudioLabel = pageContent?.fallbackStudioLabel || "Open Studio";
+  const fallbackStudioLink = pageContent?.fallbackStudioLink || "/studio";
+
+  const ctaTitle = pageContent?.ctaTitle || "Empower Others With Your Service";
+  const ctaDescription = pageContent?.ctaDescription || "We welcome medical students, teaching interns, and environment enthusiasts to join our field teams.";
+  const ctaPrimaryLabel = pageContent?.ctaPrimaryLabel || "Volunteer Signup";
+  const ctaPrimaryLink = pageContent?.ctaPrimaryLink || "/contact";
+  const ctaSecondaryLabel = pageContent?.ctaSecondaryLabel || "View Active Fields";
+  const ctaSecondaryLink = pageContent?.ctaSecondaryLink || "/programs";
 
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden">
@@ -43,7 +61,7 @@ export default async function TeamPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src={heroImageUrl}
-            alt={settings?.siteName || "Team background"}
+            alt={siteName || "Team background"}
             fill
             priority
             className="object-cover"
@@ -66,19 +84,19 @@ export default async function TeamPage() {
           <FadeIn direction="down" delay={0.1}>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-100 border border-teal-500/30 backdrop-blur-md mb-6 font-sans-modern">
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-              {settings?.teamHeroEyebrow || "Our People"}
+              {heroEyebrow}
             </span>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.2}>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.08] text-white font-display mb-4 sm:mb-5">
-              {settings?.teamHeroTitle || "Meet Our Executive Team"}
+              {heroTitle}
             </h1>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.3}>
             <p className="text-xs sm:text-sm text-slate-100/85 font-sans-modern leading-relaxed max-w-2xl mx-auto">
-              {settings?.teamHeroDescription || "Meet the volunteers, managers, and coordinators driving regional healthcare camps and learning centers."}
+              {heroDescription}
             </p>
           </FadeIn>
         </div>
@@ -90,14 +108,14 @@ export default async function TeamPage() {
           {/* Section Header */}
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-14">
             <FadeIn direction="down">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-850 mb-6 font-sans-modern">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-800 border border-teal-100 mb-6 font-sans-modern">
                 Field Leadership
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-display mb-4">
-                {settings?.teamSectionTitle || "Guided by Care &amp; Service"}
+                {sectionTitle}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-500 font-sans-modern leading-relaxed">
-                {settings?.teamSectionDescription || "Dedicated professionals coordinating healthcare diagnostic teams, learning campaigns, and conservation projects."}
+              <p className="text-xs sm:text-sm text-slate-505 text-slate-500 font-sans-modern leading-relaxed">
+                {sectionDescription}
               </p>
             </FadeIn>
           </div>
@@ -116,7 +134,7 @@ export default async function TeamPage() {
                 return (
                   <StaggerItem
                     key={member._id}
-                    className="group overflow-hidden rounded-2xl bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 grid grid-cols-1 sm:grid-cols-[104px_minmax(0,1fr)] xl:grid-cols-1"
+                    className="group overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 grid grid-cols-1 sm:grid-cols-[104px_minmax(0,1fr)] xl:grid-cols-1"
                   >
                     {/* Image Container */}
                     <div className="relative overflow-hidden bg-slate-100 aspect-[4/3] sm:aspect-auto sm:min-h-full xl:aspect-[4/3] xl:min-h-0">
@@ -195,10 +213,10 @@ export default async function TeamPage() {
                 Add team profiles dynamically using the integrated Content Studio.
               </p>
               <Link
-                href="/studio"
+                href={fallbackStudioLink}
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all font-sans-modern"
               >
-                Open Studio <ArrowRight className="w-3.5 h-3.5" />
+                {fallbackStudioLabel} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </FadeIn>
           )}
@@ -224,23 +242,23 @@ export default async function TeamPage() {
               Volunteer Outreach
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white font-display mb-4 sm:mb-5">
-              {settings?.teamCtaTitle || "Empower Others With Your Service"}
+              {ctaTitle}
             </h2>
             <p className="text-[10px] sm:text-xs text-slate-400 leading-relaxed font-sans-modern mb-7 sm:mb-8 max-w-xl mx-auto">
-              {settings?.teamCtaDescription || "We welcome medical students, teaching interns, and environment enthusiasts to join our field teams."}
+              {ctaDescription}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                href="/contact"
+                href={ctaPrimaryLink}
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-teal-600 hover:bg-teal-700 text-white text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-200 shadow-md shadow-teal-900/10 font-sans-modern w-full sm:w-auto"
               >
-                Volunteer Signup <ArrowRight className="w-3.5 h-3.5" />
+                {ctaPrimaryLabel} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <Link
-                href="/programs"
+                href={ctaSecondaryLink}
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 border border-slate-800 hover:border-slate-350 text-slate-300 hover:bg-white/10 text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-200 font-sans-modern w-full sm:w-auto"
               >
-                View Active Fields
+                {ctaSecondaryLabel}
               </Link>
             </div>
           </FadeIn>

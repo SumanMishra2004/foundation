@@ -3,7 +3,15 @@
 import { useState } from "react";
 import { CheckCircle, Send } from "lucide-react";
 
-export function ContactForm({ title, description }: { title?: string; description?: string }) {
+export function ContactForm({
+  title,
+  description,
+  submitLabel,
+}: {
+  title?: string;
+  description?: string;
+  submitLabel?: string;
+}) {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -27,14 +35,14 @@ export function ContactForm({ title, description }: { title?: string; descriptio
   };
 
   return (
-    <div className="bg-white border border-slate-200/80 p-8 sm:p-10 rounded-2xl shadow-sm">
+    <div className="bg-white border border-slate-200 p-8 sm:p-10 rounded-2xl shadow-sm">
       <h3 className="text-xl font-bold text-slate-900 font-display mb-2">{title || "Send an Inquiry Message"}</h3>
-      <p className="text-slate-550 text-xs font-sans-modern leading-relaxed mb-6">
+      <p className="text-slate-500 text-xs font-sans-modern leading-relaxed mb-6">
         {description || "Fill out the form below. Our support team or field coordinators will review your query and reply within 48 hours."}
       </p>
 
       {formSubmitted ? (
-        <div className="bg-teal-50 border border-teal-200 text-teal-850 p-6 rounded-xl text-center space-y-3">
+        <div className="bg-teal-50 border border-teal-200 text-teal-800 p-6 rounded-xl text-center space-y-3">
           <CheckCircle className="w-8 h-8 text-teal-600 mx-auto" />
           <h4 className="font-bold text-sm font-display">Inquiry Sent Successfully</h4>
           <p className="text-xs text-teal-700 font-sans-modern">
@@ -45,7 +53,7 @@ export function ContactForm({ title, description }: { title?: string; descriptio
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="name" className="block text-[11px] font-bold text-slate-650 uppercase tracking-wider mb-2 font-sans-modern">
+              <label htmlFor="name" className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2 font-sans-modern">
                 Full Name
               </label>
               <input
@@ -60,7 +68,7 @@ export function ContactForm({ title, description }: { title?: string; descriptio
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-[11px] font-bold text-slate-650 uppercase tracking-wider mb-2 font-sans-modern">
+              <label htmlFor="email" className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2 font-sans-modern">
                 Email Address
               </label>
               <input
@@ -78,7 +86,7 @@ export function ContactForm({ title, description }: { title?: string; descriptio
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="phone" className="block text-[11px] font-bold text-slate-655 uppercase tracking-wider mb-2 font-sans-modern">
+              <label htmlFor="phone" className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2 font-sans-modern">
                 Contact Number
               </label>
               <input
@@ -92,7 +100,7 @@ export function ContactForm({ title, description }: { title?: string; descriptio
               />
             </div>
             <div>
-              <label htmlFor="subject" className="block text-[11px] font-bold text-slate-650 uppercase tracking-wider mb-2 font-sans-modern">
+              <label htmlFor="subject" className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2 font-sans-modern">
                 Inquiry Subject
               </label>
               <select
@@ -111,7 +119,7 @@ export function ContactForm({ title, description }: { title?: string; descriptio
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-[11px] font-bold text-slate-650 uppercase tracking-wider mb-2 font-sans-modern">
+            <label htmlFor="message" className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2 font-sans-modern">
               Message Details
             </label>
             <textarea
@@ -130,7 +138,7 @@ export function ContactForm({ title, description }: { title?: string; descriptio
             type="submit"
             className="w-full bg-teal-600 hover:bg-teal-700 text-white rounded-xl py-3.5 text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-md shadow-teal-900/10"
           >
-            Send Message <Send className="w-3.5 h-3.5" />
+            {submitLabel || "Send Message"} <Send className="w-3.5 h-3.5" />
           </button>
         </form>
       )}

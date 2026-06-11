@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -12,114 +11,213 @@ import {
   AlertTriangle,
   Handshake,
   Sparkles,
-  CheckCircle2,
 } from "lucide-react";
-import { fetchPrograms, fetchGallery, fetchSiteSettings } from "@/lib/sanity";
+import { fetchPrograms, fetchSiteSettings, fetchProgramsPageContent, type ProgramsPageContent, type ProgramItem } from "@/lib/sanity";
 import { urlFor } from "@/lib/image";
-import {
-  FadeIn,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/ui/motion-wrapper";
-import { PhotoSlider } from "@/components/ui/photo-slider";
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  GraduationCap,
-  Award,
-  Ambulance,
-  Users,
-  Heart,
-  Leaf,
-  AlertTriangle,
-  Handshake,
-  Sparkles,
-};
+import { FadeIn } from "@/components/ui/motion-wrapper";
+import { ProgramsTimeline } from "@/components/programs/ProgramsTimeline";
 
 export const revalidate = 60;
 
 export default async function ProgramsPage() {
   const rawPrograms = await fetchPrograms();
+  const pageContent: ProgramsPageContent | null = await fetchProgramsPageContent();
   const settings = await fetchSiteSettings();
-  const gallery = await fetchGallery();
 
-  const programs =
+  const siteName = settings?.siteName || "IKC Foundation";
+
+  // Page Specific Content from Programs Singleton
+  const heroEyebrow = pageContent?.heroEyebrow || "Our Initiatives";
+  const heroTitle = pageContent?.heroTitle || "Programs & Focus Areas";
+  const heroDescription = pageContent?.heroDescription || "Through direct volunteer deployment and transparent fund utilization, we run structured programs in learning development, mobile health, and eco-conservation.";
+  const heroImageUrl = pageContent?.heroImage
+    ? urlFor(pageContent.heroImage).url()
+    : "/hero-bg.png";
+
+  const introTitle = pageContent?.introTitle || "Core Initiatives & Sub-projects";
+  const introDescription = pageContent?.introDescription || "Detailing our active field operations. Each program is run in partnership with regional volunteer networks.";
+
+  const ctaTitle = pageContent?.ctaTitle || "Would You Like to Volunteer or Collaborate?";
+  const ctaDescription = pageContent?.ctaDescription || "We welcome partnerships with local health centers, ecological experts, and youth volunteers to expand our rural reach.";
+  const ctaPrimaryLabel = pageContent?.ctaPrimaryLabel || "Apply as Volunteer";
+  const ctaPrimaryLink = pageContent?.ctaPrimaryLink || "/contact";
+  const ctaSecondaryLabel = pageContent?.ctaSecondaryLabel || "Our Annual Trust Audits";
+  const ctaSecondaryLink = pageContent?.ctaSecondaryLink || "/about";
+
+  const programs: ProgramItem[] =
     rawPrograms?.length > 0
       ? rawPrograms
       : [
           {
+            _id: "prog-1",
             title: "Learning Centers & Library Support",
             icon: "GraduationCap",
-            description:
-              "Empowering through community classrooms, libraries, and book kits.",
+            description: "Empowering through community classrooms, libraries, and book kits.",
+            color: "from-purple-500 to-indigo-600",
             details: [
               "Community teaching rooms & rural libraries",
               "Study grants & scholarships for girls' higher education",
               "Vocational and computer literacy certifications",
               "Annual notebook and kit distribution drives",
             ],
+            events: [
+              {
+                title: "Annual Notebook and Kit Distribution Drive",
+                date: "2026-04-26",
+                description: "Successfully distributed study kits, schoolbags, and notebooks to over 300 primary school children in rural blocks. The event was managed in coordination with local youth volunteer networks, and parents were invited to share feedback on learning resources.",
+                venue: "Govt Primary School Hall, Block C",
+                objective: "Provide educational resources to underprivileged students for the upcoming school year.",
+                timing: "10:00 AM - 1:30 PM",
+                images: [
+                  { _type: "image", asset: { _ref: "image-mock-1", _type: "reference" } },
+                  { _type: "image", asset: { _ref: "image-mock-2", _type: "reference" } }
+                ]
+              },
+              {
+                title: "Community Classroom & Digital Lab Launch",
+                date: "2026-01-15",
+                description: "Opened our new rural tech-enabled classroom. The space is equipped with 5 laptops, high-speed connection, and learning software. Regular coding and computer literacy sessions will be run here on weekends.",
+                venue: "Village Panchayat Center Room 2",
+                objective: "Provide computer literacy access to village youths.",
+                timing: "11:00 AM - 3:00 PM",
+                images: [
+                  { _type: "image", asset: { _ref: "image-mock-2", _type: "reference" } }
+                ]
+              }
+            ]
           },
           {
+            _id: "prog-2",
             title: "Scholarships & Academic Awards",
             icon: "Award",
-            description:
-              "Encouraging outstanding academic and research achievements.",
+            description: "Encouraging outstanding academic and research achievements.",
+            color: "from-teal-500 to-emerald-600",
             details: [
               "Direct learning fellowships for deserving youth",
               "Grants for primary and secondary schooling",
               "Community research awards",
               "Vocational training sponsorships",
             ],
+            events: [
+              {
+                title: "Higher Education Scholarship Grant Ceremony",
+                date: "2026-05-10",
+                description: "Presented scholarships to 15 deserving rural girl students pursuing undergraduate streams in engineering and sciences. Grants cover tuition fees, study materials, and monthly transport allowances.",
+                venue: "District Welfare Hall",
+                objective: "Award direct tuition scholarships.",
+                timing: "10:00 AM - 12:30 PM",
+                images: [
+                  { _type: "image", asset: { _ref: "image-mock-2", _type: "reference" } }
+                ]
+              }
+            ]
           },
           {
+            _id: "prog-3",
             title: "Mobile Clinics & Healthcare Camps",
             icon: "Ambulance",
-            description:
-              "Providing direct medical access, checkups, and free medicines.",
+            description: "Providing direct medical access, checkups, and free medicines.",
+            color: "from-red-500 to-rose-600",
             details: [
               "Periodic diagnostics & medical camp deployments",
               "Free distribution of essential medicines & vitamins",
               "Rural child immunization support",
               "First-aid training for community youth leaders",
             ],
+            events: [
+              {
+                title: "Pediatric & Maternal Health Screening Camp",
+                date: "2026-04-12",
+                description: "Organized a specialized diagnostics camp targeting children and new mothers. Provided pediatric health checkups, dental screening, and distributed vital supplements (calcium, iron, vitamins) alongside basic hygiene kits.",
+                venue: "Primary Health Center Yard",
+                objective: "Direct health screening and vitamin distribution.",
+                timing: "9:00 AM - 4:00 PM",
+                images: [
+                  { _type: "image", asset: { _ref: "image-mock-3", _type: "reference" } },
+                  { _type: "image", asset: { _ref: "image-mock-4", _type: "reference" } }
+                ]
+              }
+            ]
           },
           {
+            _id: "prog-4",
             title: "Social Welfare & Relief",
             icon: "Users",
             description: "Supporting vulnerable families and community safety nets.",
+            color: "from-blue-500 to-cyan-600",
             details: [
               "Women self-help micro-development groups",
               "Distribution of food aids & winter blanket sets",
               "Elderly support and loneliness outreach",
               "Local disaster response volunteer training",
             ],
+            events: [
+              {
+                title: "Winter Relief & Blanket Distribution",
+                date: "2025-12-18",
+                description: "Distributed heavy-duty winter blankets, thermal wear, and monthly dry ration kits containing rice, wheat flour, edible oils, and legumes to 120 elderly residents and widows living in low-shelter dwellings.",
+                venue: "Outreach Center, Sector 2",
+                objective: "Provide winter warmth support to vulnerable elderly households.",
+                timing: "11:00 AM - 3:00 PM",
+                images: [
+                  { _type: "image", asset: { _ref: "image-mock-4", _type: "reference" } }
+                ]
+              }
+            ]
           },
           {
+            _id: "prog-5",
             title: "Culture & Traditional Arts",
             icon: "Heart",
-            description:
-              "Supporting traditional folk arts and local sports initiatives.",
+            description: "Supporting traditional folk arts and local sports initiatives.",
+            color: "from-pink-500 to-orange-500",
             details: [
               "Folk music & traditional crafts workshops",
               "Inter-village sports meets and youth kits",
               "Community unity & cultural festivals",
               "Creative arts fellowships",
             ],
+            events: [
+              {
+                title: "Folk Craft Preservation Workshop",
+                date: "2026-03-05",
+                description: "A unique community workshop pairing local elder craftsmen with youth to pass down traditional bamboo carving and weaving skills. An evening folk music concert concluded the celebration of local cultural roots.",
+                venue: "Community Amphitheater",
+                objective: "Promote traditional tribal crafts and music.",
+                timing: "1:00 PM - 5:00 PM",
+                images: [
+                  { _type: "image", asset: { _ref: "image-mock-1", _type: "reference" } }
+                ]
+              }
+            ]
           },
           {
+            _id: "prog-6",
             title: "Ecological Conservation & Afforestation",
             icon: "Leaf",
-            description:
-              "Promoting plantation, clean-water care, and bio-protection.",
+            description: "Promoting plantation, clean-water care, and bio-protection.",
+            color: "from-green-500 to-emerald-600",
             details: [
-              "Periodic community tree-planting campaigns",
-              "Local biodiversity and wildlife awareness",
-              "Water-conservation and rain-harvesting setups",
+              "Tree plantation drives and soil care",
+              "Local biodiversity mapping",
+              "Rainwater harvesting awareness",
               "Eco-friendly waste management training",
             ],
+            events: [
+              {
+                title: "Monsoon Afforestation & Soil Binding Plantations",
+                date: "2026-06-01",
+                description: "Planted over 1,200 native saplings (including neem, local tamarind, and banyan trees) along the river embankment to prevent monsoon soil erosion. Over 80 community volunteers and local school children joined.",
+                venue: "Wasteland Zone B",
+                objective: "Afforesting degraded soils using native saplings.",
+                timing: "8:00 AM - 12:00 PM",
+                images: [
+                  { _type: "image", asset: { _ref: "image-mock-5", _type: "reference" } }
+                ]
+              }
+            ]
           },
         ];
-
-    const heroImageUrl = settings?.programsHeroImage ? urlFor(settings.programsHeroImage).url() : "/hero-bg.png";
 
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden">
@@ -129,7 +227,7 @@ export default async function ProgramsPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src={heroImageUrl}
-            alt={settings?.siteName || "Programs background"}
+            alt={siteName}
             fill
             priority
             className="object-cover"
@@ -152,130 +250,46 @@ export default async function ProgramsPage() {
           <FadeIn direction="down" delay={0.1}>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-100 border border-teal-500/30 backdrop-blur-md mb-6 font-sans-modern">
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-              {settings?.programsHeroEyebrow || "Our Initiatives"}
+              {heroEyebrow}
             </span>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.2}>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.08] text-white font-display mb-4 sm:mb-5">
-              {settings?.programsHeroTitle || "Programs & Focus Areas"}
+              {heroTitle}
             </h1>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.3}>
             <p className="text-xs sm:text-sm text-slate-100/85 font-sans-modern leading-relaxed max-w-2xl mx-auto">
-              {settings?.programsHeroDescription || "Through direct volunteer deployment and transparent fund utilization, we run structured programs in learning development, mobile health, and eco-conservation."}
+              {heroDescription}
             </p>
           </FadeIn>
         </div>
       </section>
 
-      {/* ================= PROGRAMS GRID ================= */}
+      {/* ================= INTERACTIVE TIMELINE SECTION ================= */}
       <section className="py-20 lg:py-28 bg-[#FAF7E6]">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="w-full">
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-16 px-4">
             <FadeIn direction="down">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-850 mb-6 font-sans-modern">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-800 border border-teal-100 mb-6 font-sans-modern">
                 What We Do
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-display mb-4">
-                {settings?.programsIntroTitle || "Core Initiatives &amp; Sub-projects"}
+                {introTitle}
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 font-sans-modern leading-relaxed">
-                {settings?.programsIntroDescription || "Detailing our active field operations. Each program is run in partnership with regional volunteer networks."}
+                {introDescription}
               </p>
             </FadeIn>
           </div>
 
-          {/* Cards Grid */}
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            {programs.map((prog: any, idx: number) => {
-              const IconComp = iconMap[prog.icon] || Sparkles;
-              const details: string[] = prog.details || [];
-
-              return (
-                <StaggerItem
-                  key={idx}
-                  className="group bg-white rounded-2xl border border-slate-205 border-slate-200/80 p-6 sm:p-7 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-300"
-                >
-                  {/* Card Header */}
-                  <div className="flex items-center gap-3 sm:gap-4 mb-5 sm:mb-6">
-                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-700 shrink-0 group-hover:scale-105 transition-transform duration-200">
-                      <IconComp className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </div>
-                    <div>
-                      <h3 className="text-base sm:text-lg font-bold text-slate-905 font-display group-hover:text-teal-750 transition-colors">
-                        {prog.title}
-                      </h3>
-                      {prog.description && (
-                        <p className="text-[11px] sm:text-xs text-slate-500 font-sans-modern mt-0.5">
-                          {prog.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Details Bullet List */}
-                  {details.length > 0 && (
-                    <ul className="space-y-2.5 sm:space-y-3 mb-5 sm:mb-6 border-t border-slate-100 pt-4 sm:pt-5">
-                      {details.map((detail: string, dIdx: number) => (
-                        <li
-                          key={dIdx}
-                          className="flex items-start gap-3 text-[11px] sm:text-xs text-slate-650 font-sans-modern leading-relaxed"
-                        >
-                          <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-teal-650 shrink-0 mt-0.5" />
-                          <span className="font-medium text-slate-650">{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {/* Footer Status bar */}
-                  <div className="pt-3.5 sm:pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-[8px] sm:text-[9px] uppercase font-bold tracking-widest text-slate-400 font-sans-modern">
-                      Active Deployment
-                    </span>
-                    {prog.link ? (
-                      <Link href={prog.link} className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-teal-600 group-hover:text-white group-hover:border-teal-600 transition-all duration-200">
-                        <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                      </Link>
-                    ) : (
-                      <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:bg-teal-600 group-hover:text-white group-hover:border-teal-600 transition-all duration-200">
-                        <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                      </div>
-                    )}
-                  </div>
-                </StaggerItem>
-              );
-            })}
-          </StaggerContainer>
+          {/* Timeline & Tabs */}
+          <ProgramsTimeline programs={programs} />
         </div>
       </section>
-
-      {/* ================= GALLERY SECTION ================= */}
-      {gallery?.images && gallery.images.length > 0 && (
-        <section className="py-20 lg:py-24 bg-[#FAF7E6]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <FadeIn direction="up">
-              <div className="text-center mb-10">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-700 border border-teal-100 mb-4 font-sans-modern">
-                  Field Operations
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-display">
-                  {gallery.title || "Program Gallery"}
-                </h2>
-                <p className="mt-2 text-xs sm:text-sm text-slate-500 font-sans-modern">
-                  A visual record of our outreach programs, community events, and field deployments.
-                </p>
-              </div>
-            </FadeIn>
-            <div className="w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl ring-1 ring-slate-200">
-              <PhotoSlider images={gallery.images} />
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* ================= CTA SECTION ================= */}
       <section className="py-20 lg:py-24 bg-slate-950 text-white relative">
@@ -296,23 +310,23 @@ export default async function ProgramsPage() {
               Outreach Collaboration
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white font-display mb-5 sm:mb-6">
-              {settings?.programsCtaTitle || "Would You Like to Volunteer or Collaborate?"}
+              {ctaTitle}
             </h2>
             <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed font-sans-modern mb-8 sm:mb-10 max-w-xl mx-auto">
-              {settings?.programsCtaDescription || "We welcome partnerships with local health centers, ecological experts, and youth volunteers to expand our rural reach."}
+              {ctaDescription}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                href="/contact"
+                href={ctaPrimaryLink}
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-teal-600 hover:bg-teal-700 text-white text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-200 shadow-md shadow-teal-900/10 font-sans-modern w-full sm:w-auto"
               >
-                Apply as Volunteer <ArrowRight className="w-3.5 h-3.5" />
+                {ctaPrimaryLabel} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <Link
-                href="/about"
+                href={ctaSecondaryLink}
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 border border-slate-800 hover:border-slate-300 text-slate-300 hover:bg-white/10 text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-200 font-sans-modern w-full sm:w-auto"
               >
-                Our Annual Trust Audits
+                {ctaSecondaryLabel}
               </Link>
             </div>
           </FadeIn>

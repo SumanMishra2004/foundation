@@ -52,6 +52,79 @@ export const program = defineType({
       type: 'number',
       initialValue: 10,
     }),
+    defineField({
+      name: 'events',
+      title: 'Events Timeline',
+      type: 'array',
+      description: 'Timeline of events hosted under this program',
+      of: [
+        {
+          type: 'object',
+          name: 'event',
+          title: 'Event',
+          fields: [
+            {
+              name: 'title',
+              title: 'Event Title',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'date',
+              title: 'Event Date',
+              type: 'date',
+              options: {
+                dateFormat: 'YYYY-MM-DD',
+              },
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'description',
+              title: 'Description / Summary',
+              type: 'text',
+              description: 'Detailed description of the event. Supports "read more" feature on frontend.',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'venue',
+              title: 'Venue / Location',
+              type: 'string',
+              description: 'e.g. Community Center, Sector 4',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'objective',
+              title: 'Objective',
+              type: 'string',
+              description: 'e.g. Faculty training on digital tools',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'timing',
+              title: 'Timing',
+              type: 'string',
+              description: 'e.g. 10:00 AM - 4:00 PM',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'images',
+              title: 'Event Images',
+              type: 'array',
+              description: 'Uploaded images will slide one over another automatically on the page',
+              of: [{ type: 'image', options: { hotspot: true } }],
+              validation: (Rule) => Rule.required().min(1),
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              subtitle: 'date',
+              media: 'images.0',
+            },
+          },
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
@@ -60,3 +133,4 @@ export const program = defineType({
     },
   },
 });
+

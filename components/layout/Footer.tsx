@@ -1,25 +1,27 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
-import { Mail, MapPin, Heart, ArrowUpRight, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Heart, ArrowUpRight, Phone } from "lucide-react";
 import { urlFor } from "@/lib/image";
+import { type SanityImage } from "@/lib/sanity";
 
 type FooterSettings = {
   siteName?: string;
   tagline?: string;
-  logo?: any;
+  logo?: SanityImage;
   footerDescription?: string;
   footerQuote?: string;
   focusAreas?: string[];
   contactAddress?: string;
   contactEmail?: string;
   contactPhone?: string;
+  footerQuickLinks?: Array<{ label?: string; href?: string }>;
+  footerBottomLinks?: Array<{ label?: string; href?: string }>;
 };
 
 export function Footer({ settings }: { settings?: FooterSettings }) {
-  const links = [
+  const defaultQuickLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About IKC" },
     { href: "/programs", label: "Programs" },
@@ -28,7 +30,7 @@ export function Footer({ settings }: { settings?: FooterSettings }) {
     { href: "/contact", label: "Contact Us" },
   ];
 
-  const focusAreas = [
+  const defaultFocusAreas = [
     "Education & Knowledge Development",
     "Healthcare & Medical Assistance",
     "Social & Rural Welfare Initiatives",
@@ -46,17 +48,20 @@ export function Footer({ settings }: { settings?: FooterSettings }) {
     settings?.footerDescription ||
     "A registered public charitable trust committed to driving inclusive social development, educational grants, and rural health consulting.";
   const quote = settings?.footerQuote || "Knowledge empowers, Care transforms.";
-  const areas = settings?.focusAreas?.length ? settings.focusAreas : focusAreas;
+  const areas = settings?.focusAreas?.length ? settings.focusAreas : defaultFocusAreas;
   const address =
     settings?.contactAddress || "NewTown, Kolkata, West Bengal, India - 700135";
   const email = settings?.contactEmail || "info@ikc.org.in";
   const phone = settings?.contactPhone || "+91 33 2419 0921";
+  const quickLinks = settings?.footerQuickLinks?.length ? settings.footerQuickLinks : defaultQuickLinks;
+  const bottomLinks = settings?.footerBottomLinks?.length ? settings.footerBottomLinks : [
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms of Use", href: "#" },
+  ];
 
   return (
     <footer className="bg-slate-950 text-slate-300 border-t border-slate-900">
-      {/* Top Banner / Newsletter */}
-
-      <div className=" mx-auto px-5 sm:px-8 pt-16 lg:pt-20">
+      <div className="mx-auto px-5 sm:px-8 pt-16 lg:pt-20">
         {/* Main Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pb-12 border-b border-slate-800/70">
           {/* Brand Identity Column */}
@@ -75,7 +80,7 @@ export function Footer({ settings }: { settings?: FooterSettings }) {
                 <span className="text-sm md:text-base font-extrabold text-white font-display tracking-tight block uppercase">
                   {siteName}
                 </span>
-                <span className="text-xs md:text-sm uppercase tracking-widest text-teal-300 font-bold block">
+                <span className="text-xs md:text-sm uppercase tracking-widest text-teal-355 text-teal-400 font-bold block">
                   {tagline}
                 </span>
               </div>
@@ -84,8 +89,6 @@ export function Footer({ settings }: { settings?: FooterSettings }) {
             <p className="text-sm text-slate-400 leading-relaxed font-sans-modern">
               {description}
             </p>
-
-            
           </div>
 
           {/* Navigation Links Column */}
@@ -94,10 +97,10 @@ export function Footer({ settings }: { settings?: FooterSettings }) {
               Quick Links
             </h3>
             <ul className="flex flex-col gap-2">
-              {links.map((link) => (
-                <li key={link.href}>
+              {quickLinks.map((link, idx) => (
+                <li key={link.href || idx}>
                   <Link
-                    href={link.href}
+                    href={link.href || "#"}
                     className="group inline-flex items-center gap-1 text-[14px] text-slate-400 hover:text-teal-300 transition-colors duration-200 font-sans-modern"
                   >
                     <span>{link.label}</span>
@@ -171,12 +174,11 @@ export function Footer({ settings }: { settings?: FooterSettings }) {
             &copy; {new Date().getFullYear()} {siteName}. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="#" className="hover:text-slate-300 transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="hover:text-slate-300 transition-colors">
-              Terms of Use
-            </Link>
+            {bottomLinks.map((link, idx) => (
+              <Link key={link.href || idx} href={link.href || "#"} className="hover:text-slate-300 transition-colors">
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

@@ -5,9 +5,9 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Images } from "lucide-react";
 import { urlFor } from "@/lib/image";
+import { type SanityImage } from "@/lib/sanity";
 
-interface GalleryImage {
-  asset?: any;
+interface GalleryImage extends SanityImage {
   caption?: string;
   description?: string;
   year?: string;

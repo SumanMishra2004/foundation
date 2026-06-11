@@ -1,6 +1,6 @@
 import { Mail, MapPin, Phone, Clock, HelpCircle } from "lucide-react";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/motion-wrapper";
-import { fetchSiteSettings } from "@/lib/sanity";
+import { fetchSiteSettings, fetchContactContent, type ContactPageContent } from "@/lib/sanity";
 import { ContactForm } from "@/components/contact/ContactForm";
 
 export const revalidate = 60;
@@ -12,8 +12,20 @@ type FaqItem = {
 
 export default async function ContactPage() {
   const settings = await fetchSiteSettings();
+  const pageContent: ContactPageContent | null = await fetchContactContent();
 
-  const settingsFaqs = settings?.contactFaqs ?? [];
+  const heroEyebrow = pageContent?.heroEyebrow || "Connect With Us";
+  const heroTitle = pageContent?.heroTitle || "Get in Touch & Volunteer";
+  const heroDescription = pageContent?.heroDescription || "Have questions about our rural welfare programs, donation transparency, or wish to join as a field volunteer? We would love to hear from you.";
+
+  const officeSectionTitle = pageContent?.officeSectionTitle || "Headquarters Coordinates";
+  const officeSectionDescription = pageContent?.officeSectionDescription || "Our central operational team coordinates medical diagnosticians, rural teaching materials, and plantation supplies from our Newtown office in Kolkata.";
+
+  const contactFormTitle = pageContent?.contactFormTitle || "Send an Inquiry Message";
+  const contactFormDescription = pageContent?.contactFormDescription || "Fill out the form below. Our support team or field coordinators will review your query and reply within 48 hours.";
+  const contactFormSubmitLabel = pageContent?.contactFormSubmitLabel || "Send Message";
+
+  const settingsFaqs = pageContent?.contactFaqs ?? [];
   const faqs: FaqItem[] = (settingsFaqs.length > 0
     ? settingsFaqs
     : [
@@ -54,19 +66,19 @@ export default async function ContactPage() {
         <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 text-center pt-20 sm:pt-24 pb-12">
           <FadeIn direction="down" delay={0.1}>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-100 border border-teal-500/30 mb-6 font-sans-modern">
-              {settings?.contactHeroEyebrow || "Connect With Us"}
+              {heroEyebrow}
             </span>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.2}>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white font-display mb-4">
-              {settings?.contactHeroTitle || "Get in Touch & Volunteer"}
+              {heroTitle}
             </h1>
           </FadeIn>
 
           <FadeIn direction="up" delay={0.3}>
             <p className="text-xs sm:text-sm text-slate-100/85 font-sans-modern leading-relaxed max-w-xl mx-auto">
-              {settings?.contactHeroDescription || "Have questions about our rural welfare programs, donation transparency, or wish to join as a field volunteer? We would love to hear from you."}
+              {heroDescription}
             </p>
           </FadeIn>
         </div>
@@ -77,18 +89,18 @@ export default async function ContactPage() {
           <div className="lg:col-span-5 space-y-8">
             <FadeIn direction="right">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-800 border border-teal-100 mb-6 font-sans-modern">
-                {settings?.contactOfficeTitle || "Our Office"}
+                Our Office
               </span>
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-slate-900 font-display mb-5 sm:mb-6">
-                {settings?.contactOfficeTitle || "Headquarters Coordinates"}
+                {officeSectionTitle}
               </h2>
               <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed font-sans-modern mb-8">
-                {settings?.contactOfficeDescription || "Our central operational team coordinates medical diagnosticians, rural teaching materials, and plantation supplies from our Newtown office in Kolkata."}
+                {officeSectionDescription}
               </p>
 
               <div className="space-y-5 sm:space-y-6">
-                <div className="flex items-start gap-4 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 bg-white shadow-sm">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#FAF7E6] flex items-center justify-center text-teal-650 shrink-0">
+                <div className="flex items-start gap-4 p-3.5 sm:p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#FAF7E6] flex items-center justify-center text-teal-600 shrink-0">
                     <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div>
@@ -99,8 +111,8 @@ export default async function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 bg-white shadow-sm">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#FAF7E6] flex items-center justify-center text-teal-655 shrink-0">
+                <div className="flex items-start gap-4 p-3.5 sm:p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#FAF7E6] flex items-center justify-center text-teal-700 shrink-0">
                     <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div>
@@ -111,8 +123,8 @@ export default async function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 bg-white shadow-sm">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#FAF7E6] flex items-center justify-center text-teal-650 shrink-0">
+                <div className="flex items-start gap-4 p-3.5 sm:p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#FAF7E6] flex items-center justify-center text-teal-600 shrink-0">
                     <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div>
@@ -123,8 +135,8 @@ export default async function ContactPage() {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-3.5 sm:p-4 rounded-xl border border-slate-200/60 bg-white shadow-sm">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#FAF7E6] flex items-center justify-center text-teal-650 shrink-0">
+                <div className="flex items-start gap-4 p-3.5 sm:p-4 rounded-xl border border-slate-200 bg-white shadow-sm">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-[#FAF7E6] flex items-center justify-center text-teal-600 shrink-0">
                     <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                   <div>
@@ -141,8 +153,9 @@ export default async function ContactPage() {
           <div className="lg:col-span-7">
             <FadeIn direction="left">
               <ContactForm
-                title={settings?.contactFormTitle}
-                description={settings?.contactFormDescription}
+                title={contactFormTitle}
+                description={contactFormDescription}
+                submitLabel={contactFormSubmitLabel}
               />
             </FadeIn>
           </div>
@@ -163,7 +176,7 @@ export default async function ContactPage() {
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
           {faqs.map((faq: FaqItem, idx: number) => (
-            <StaggerItem key={idx} className="bg-white border border-slate-200/80 rounded-2xl p-5 sm:p-6 shadow-sm">
+            <StaggerItem key={idx} className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#FAF7E6] flex items-center justify-center text-teal-700 shrink-0">
                   <HelpCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />

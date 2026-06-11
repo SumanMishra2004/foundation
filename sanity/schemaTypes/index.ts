@@ -5,6 +5,10 @@ import { homeContent } from './homeContent';
 import { aboutContent } from './aboutContent';
 import { siteSettings } from './siteSettings';
 import { gallery } from './gallery';
+import { programsPageContent } from './programsPageContent';
+import { teamPageContent } from './teamPageContent';
+import { advisoryPageContent } from './advisoryPageContent';
+import { contactPageContent } from './contactPageContent';
 
 export const schemaTypes = [
   teamMember,
@@ -14,4 +18,8 @@ export const schemaTypes = [
   aboutContent,
   siteSettings,
   gallery,
+  programsPageContent,
+  teamPageContent,
+  advisoryPageContent,
+  contactPageContent,
 ];
