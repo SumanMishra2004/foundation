@@ -54,12 +54,6 @@ export default async function ProgramsPage() {
             icon: "GraduationCap",
             description: "Empowering through community classrooms, libraries, and book kits.",
             color: "from-purple-500 to-indigo-600",
-            details: [
-              "Community teaching rooms & rural libraries",
-              "Study grants & scholarships for girls' higher education",
-              "Vocational and computer literacy certifications",
-              "Annual notebook and kit distribution drives",
-            ],
             events: [
               {
                 title: "Annual Notebook and Kit Distribution Drive",
@@ -92,12 +86,6 @@ export default async function ProgramsPage() {
             icon: "Award",
             description: "Encouraging outstanding academic and research achievements.",
             color: "from-teal-500 to-emerald-600",
-            details: [
-              "Direct learning fellowships for deserving youth",
-              "Grants for primary and secondary schooling",
-              "Community research awards",
-              "Vocational training sponsorships",
-            ],
             events: [
               {
                 title: "Higher Education Scholarship Grant Ceremony",
@@ -118,12 +106,6 @@ export default async function ProgramsPage() {
             icon: "Ambulance",
             description: "Providing direct medical access, checkups, and free medicines.",
             color: "from-red-500 to-rose-600",
-            details: [
-              "Periodic diagnostics & medical camp deployments",
-              "Free distribution of essential medicines & vitamins",
-              "Rural child immunization support",
-              "First-aid training for community youth leaders",
-            ],
             events: [
               {
                 title: "Pediatric & Maternal Health Screening Camp",
@@ -145,12 +127,6 @@ export default async function ProgramsPage() {
             icon: "Users",
             description: "Supporting vulnerable families and community safety nets.",
             color: "from-blue-500 to-cyan-600",
-            details: [
-              "Women self-help micro-development groups",
-              "Distribution of food aids & winter blanket sets",
-              "Elderly support and loneliness outreach",
-              "Local disaster response volunteer training",
-            ],
             events: [
               {
                 title: "Winter Relief & Blanket Distribution",
@@ -171,12 +147,6 @@ export default async function ProgramsPage() {
             icon: "Heart",
             description: "Supporting traditional folk arts and local sports initiatives.",
             color: "from-pink-500 to-orange-500",
-            details: [
-              "Folk music & traditional crafts workshops",
-              "Inter-village sports meets and youth kits",
-              "Community unity & cultural festivals",
-              "Creative arts fellowships",
-            ],
             events: [
               {
                 title: "Folk Craft Preservation Workshop",
@@ -197,12 +167,6 @@ export default async function ProgramsPage() {
             icon: "Leaf",
             description: "Promoting plantation, clean-water care, and bio-protection.",
             color: "from-green-500 to-emerald-600",
-            details: [
-              "Tree plantation drives and soil care",
-              "Local biodiversity mapping",
-              "Rainwater harvesting awareness",
-              "Eco-friendly waste management training",
-            ],
             events: [
               {
                 title: "Monsoon Afforestation & Soil Binding Plantations",

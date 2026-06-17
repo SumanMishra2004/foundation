@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import { 
-  CheckCircle2, 
   MapPin, 
   Clock, 
   Target, 
@@ -184,26 +183,6 @@ export function ProgramsTimeline({ programs }: ProgramsTimelineProps) {
                 <p className="text-xs sm:text-sm text-slate-600 font-sans-modern leading-relaxed mb-6">
                   {activeProgram.description}
                 </p>
-
-                {/* Program Details Bullet List */}
-                {activeProgram.details && activeProgram.details.length > 0 && (
-                  <div className="border-t border-slate-100 pt-6">
-                    <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider font-sans-modern mb-3">
-                      Core Initiatives
-                    </h4>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {activeProgram.details.map((detail, dIdx) => (
-                        <li
-                          key={dIdx}
-                          className="flex items-start gap-2.5 text-xs text-slate-600 font-sans-modern leading-relaxed"
-                        >
-                          <CheckCircle2 className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
-                          <span className="font-medium">{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
               </div>
 
               {/* Event Timeline Section */}

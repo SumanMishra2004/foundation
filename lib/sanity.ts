@@ -248,7 +248,6 @@ export interface ProgramItem {
   icon: string;
   color?: string;
   link?: string;
-  details?: string[];
   order?: number;
   events?: EventItem[];
 }
@@ -335,7 +334,6 @@ export async function fetchPrograms(): Promise<ProgramItem[]> {
     icon,
     color,
     link,
-    details,
     order,
     events[]{
       title,

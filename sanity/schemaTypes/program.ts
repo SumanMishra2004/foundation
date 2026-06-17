@@ -40,13 +40,6 @@ export const program = defineType({
       description: 'External or internal link for this program (optional)',
     }),
     defineField({
-      name: 'details',
-      title: 'Program Detailed List Items',
-      type: 'array',
-      of: [{ type: 'string' }],
-      description: 'Detail items shown on the Programs page list',
-    }),
-    defineField({
       name: 'order',
       title: 'Display Order',
       type: 'number',
