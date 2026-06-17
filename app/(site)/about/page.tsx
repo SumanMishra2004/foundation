@@ -121,47 +121,62 @@ export default async function AboutPage() {
 
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden">
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[40vh] flex items-center justify-center">
-        {/* Full-bleed background image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src={heroImageUrl}
-            alt={siteName || "About IKC Foundation background banner"}
-            fill
-            priority
-            className="object-cover object-center"
-            sizes="100vw"
-            unoptimized
-          />
-          {/* Dark high-contrast gradient overlay */}
-          <div className="absolute inset-0 bg-linear-to-b from-slate-950/90 via-slate-900/80 to-slate-950/95 z-10" />
-        </div>
+      
+<section className="relative w-full h-[40vh] min-h-[160px] max-h-[350px] flex items-center justify-center overflow-hidden">
 
-        <div className="w-full px-5 sm:px-8 relative z-20 text-center py-24 sm:py-32">
-          <FadeIn direction="down" delay={0.1}>
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-100 border border-teal-500/30 backdrop-blur-md mb-6 font-display">
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-              {heroEyebrow}
-            </span>
-          </FadeIn>
+  {/* Background Image */}
+  <div className="absolute inset-0 z-0">
+    <Image
+      src={heroImageUrl}
+      alt={siteName || "About IKC Foundation background banner"}
+      fill
+      priority
+      className="object-cover object-center"
+      sizes="100vw"
+      unoptimized
+    />
 
-          <FadeIn direction="up" delay={0.2}>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white font-display mb-6 max-w-4xl mx-auto uppercase">
-              {heroTitle}
-            </h1>
-          </FadeIn>
+    {/* Overlay */}
+    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-900/75 to-slate-950/90" />
+  </div>
 
-          <FadeIn direction="up" delay={0.3}>
-            <p className="text-xs sm:text-sm text-slate-100/85 font-sans-modern leading-relaxed max-w-2xl mx-auto">
-              {heroSubtitle}
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+  {/* Content */}
+  <div className="relative z-20 w-full max-w-3xl mx-auto px-4 sm:px-6 text-center">
 
+    {/* Eyebrow */}
+    <FadeIn direction="down" delay={0.1}>
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-100 border border-teal-500/30 backdrop-blur-md mb-2">
+
+        <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
+
+        {heroEyebrow}
+
+      </span>
+    </FadeIn>
+
+    {/* Title */}
+    <FadeIn direction="up" delay={0.2}>
+      <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold leading-tight tracking-tight text-white uppercase font-display mb-2 max-w-2xl mx-auto">
+
+        {heroTitle}
+
+      </h1>
+    </FadeIn>
+
+    {/* Subtitle */}
+    <FadeIn direction="up" delay={0.3}>
+      <p className="text-[10px] sm:text-xs md:text-sm text-slate-100/85 leading-relaxed max-w-xl mx-auto">
+
+        {heroSubtitle}
+
+      </p>
+    </FadeIn>
+
+  </div>
+
+</section>
       {/* ================= STORY SECTION ================= */}
-      <section className="py-20 lg:py-24 bg-[#FAF7E6]">
+      <section className="py-12  bg-[#FAF7E6]">
         <div className="w-full px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             {/* Story text */}

@@ -56,7 +56,7 @@ export default async function TeamPage() {
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden">
       {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[40vh] flex items-center justify-center">
+      <section className="relative h-[40vh] min-h-[160px] max-h-[350px] flex items-center justify-center">
         {/* Full Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -80,7 +80,7 @@ export default async function TeamPage() {
           />
         </div>
 
-        <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 text-center py-20 sm:py-24 lg:py-28">
+        <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 text-center py-20 pt-28">
           <FadeIn direction="down" delay={0.1}>
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-500/20 text-teal-100 border border-teal-500/30 backdrop-blur-md mb-6 font-sans-modern">
               <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />

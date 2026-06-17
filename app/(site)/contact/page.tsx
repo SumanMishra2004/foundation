@@ -52,7 +52,7 @@ export default async function ContactPage() {
 
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden min-h-screen">
-      <section className="relative min-h-[40vh] flex items-center justify-center bg-slate-950 text-white">
+      <section className="relative h-[40vh] min-h-[160px] max-h-[350px] flex items-center justify-center bg-slate-950 text-white">
         <div className="absolute inset-0 z-0 bg-[radial-gradient(#0f766e_1px,transparent_1px)] opacity-20 pointer-events-none" style={{ backgroundSize: "24px 24px" }} />
         <div
           className="absolute inset-0"
