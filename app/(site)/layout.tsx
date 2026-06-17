@@ -1,18 +1,7 @@
 import type { Metadata } from "next";
-import { Libre_Baskerville } from "next/font/google";
-
-import "../globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { fetchSiteSettings } from "@/lib/sanity";
-
-const libreBaskerville = Libre_Baskerville({
-  subsets: ["latin"],
-  variable: "--font-librebaskerville",
-  display: "swap",
-  weight: ["400", "700"],
-  style: ["normal", "italic"],
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await fetchSiteSettings();
@@ -88,18 +77,10 @@ export default async function RootLayout({
     : undefined;
 
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={libreBaskerville.variable}
-    >
-      <body
-        className={`${libreBaskerville.className} antialiased bg-[#FAF7E6] text-[#0f172a]`}
-      >
-        <Navbar settings={navbarSettings} />
-        <main>{children}</main>
-        <Footer settings={footerSettings} />
-      </body>
-    </html>
+    <>
+      <Navbar settings={navbarSettings} />
+      <main>{children}</main>
+      <Footer settings={footerSettings} />
+    </>
   );
 }
