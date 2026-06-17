@@ -186,7 +186,7 @@ export default async function ProgramsPage() {
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden">
       {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[60vh] flex items-center justify-center">
+      <section className="relative min-h-[40vh] flex items-center justify-center">
         {/* Full Background Image */}
         <div className="absolute inset-0 z-0">
           <Image

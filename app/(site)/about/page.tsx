@@ -122,7 +122,7 @@ export default async function AboutPage() {
   return (
     <div className="w-full bg-[#FAF7E6] overflow-hidden">
       {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[65vh] flex items-center justify-center">
+      <section className="relative min-h-[40vh] flex items-center justify-center">
         {/* Full-bleed background image */}
         <div className="absolute inset-0 z-0">
           <Image
