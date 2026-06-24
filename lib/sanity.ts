@@ -146,6 +146,9 @@ export interface AboutContent {
   visionDescription?: string;
   missionTitle?: string;
   missionDescription?: string;
+  historyEyebrow?: string;
+  historyTitle?: string;
+  historyDescription?: string;
   milestones?: Array<{ year?: string; title?: string; desc?: string }>;
   valuesTitle?: string;
   valuesDescription?: string;
@@ -478,6 +481,9 @@ export async function fetchAboutContent(): Promise<AboutContent | null> {
     visionDescription,
     missionTitle,
     missionDescription,
+    historyEyebrow,
+    historyTitle,
+    historyDescription,
     milestones[]{year, title, desc},
     valuesTitle,
     valuesDescription,

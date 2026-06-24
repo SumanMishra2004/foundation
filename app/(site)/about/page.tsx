@@ -71,6 +71,10 @@ export default async function AboutPage() {
   const missionDescription = aboutData?.missionDescription || "To drive direct, impactful social initiatives in rural and underprivileged communities through education, healthcare camps, and ecological conservation projects.";
 
   // Milestones Timeline
+  const historyEyebrow = aboutData?.historyEyebrow || "Our History";
+  const historyTitle = aboutData?.historyTitle || "Milestones of Sustainable Impact";
+  const historyDescription = aboutData?.historyDescription || "Tracing our history of development from a local Newtown initiative to a multi-regional support trust.";
+
   const milestones: MilestoneItem[] = (aboutData?.milestones?.length
     ? aboutData.milestones
     : [
@@ -267,13 +271,13 @@ export default async function AboutPage() {
           <div className="text-center max-w-2xl mx-auto mb-16">
             <FadeIn direction="down">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-teal-50 text-teal-800 border border-teal-100 mb-6 font-display">
-                Our History
+                {historyEyebrow}
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 font-display mb-4">
-                Milestones of Sustainable Impact
+                {historyTitle}
               </h2>
               <p className="text-xs text-slate-500 font-sans-modern leading-relaxed">
-                Tracing our history of development from a local Newtown initiative to a multi-regional support trust.
+                {historyDescription}
               </p>
             </FadeIn>
           </div>

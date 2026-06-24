@@ -150,6 +150,27 @@ export const aboutContent = defineType({
 
     // Milestones Timeline
     defineField({
+      name: 'historyEyebrow',
+      title: 'History Eyebrow Label',
+      type: 'string',
+      initialValue: 'Our History',
+      fieldset: 'milestonesTimeline',
+    }),
+    defineField({
+      name: 'historyTitle',
+      title: 'History Section Title',
+      type: 'string',
+      initialValue: 'Milestones of Sustainable Impact',
+      fieldset: 'milestonesTimeline',
+    }),
+    defineField({
+      name: 'historyDescription',
+      title: 'History Section Description',
+      type: 'text',
+      initialValue: 'Tracing our history of development from a local Newtown initiative to a multi-regional support trust.',
+      fieldset: 'milestonesTimeline',
+    }),
+    defineField({
       name: 'milestones',
       title: 'Historical Milestones',
       type: 'array',
